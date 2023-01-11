@@ -1,0 +1,25 @@
+/*
+
+    The Fade Effect
+
+
+    Description:
+        This effect is used to fade any element.
+
+    Files:
+        effects/fade.css
+
+    Classes:
+        .fade
+            .active
+            .no-ani
+
+*/
+
+.fade:not(.no-ani) {
+    transition: opacity 0.3s;
+}
+
+.fade:not(.active) {
+    opacity: 0;
+}

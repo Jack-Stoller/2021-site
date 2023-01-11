@@ -1,0 +1,827 @@
+<!--
+
+    index.html file
+
+    Contains all HTML code for the project.
+    SVG elements are embedded for CSS control.
+
+-->
+
+<!DOCTYPE html>
+
+<!--
+
+    This is incorrect html, but its the most effective way of getting
+    a loading screen without using a framwork or virtual DOM
+
+    It's used show something while the style sheets load and the page is
+    getting setup and read by the JS
+
+    Put network on Slow 3G to see it in intended use
+
+-->
+<head>
+
+    <link rel="icon" href="favicon.svg" sizes="any" type="image/svg+xml">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <style>
+        :root {
+            --secondary-color-h: 83;
+            --secondary-color-s: 76%;
+            --secondary-color-l: 51%;
+
+            --primary-color: rgb(15, 15, 15);
+            --secondary-color: hsl(var(--secondary-color-h), var(--secondary-color-s), var(--secondary-color-l));
+            --tertiary-color: rgb(63, 63, 63);
+
+            --acent-font: 'Inconsolata', monospace;
+            --content-font: 'Montserrat', sans-serif;
+        }
+
+
+        .load-screen {
+            position: fixed;
+            z-index: 100;
+
+            display: grid;
+
+            top: 0;
+            left: 0;
+
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--primary-color);
+
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .load-screen.hide {
+
+            transform: scale(1.3);
+
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .load-screen > .center {
+            align-self: center;
+            justify-self: center;
+
+            width: fit-content;
+        }
+
+        .load-screen {
+            font-family: monospace;
+            color: var(--secondary-color);
+            font-size: 22px;
+        }
+
+        .load-screen .progress {
+
+            position: relative;
+
+            width: 100%;
+
+            height: 30px;
+
+            margin-top: 24px;
+
+            border: 2px solid var(--secondary-color);
+        }
+
+        .load-screen .progress:before {
+            position: absolute;
+            content: "";
+            display: block;
+
+            top: 3px;
+            left: 3px;
+
+            height: calc(100% - 6px);
+            width: 50%;
+
+            background-color: var(--secondary-color);
+
+            animation-name: progress;
+            animation-timing-function: linear;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes progress {
+            0% {
+                width: 0;
+                margin-left: 0;
+            }
+
+            33.33% {
+                width: calc(50% - 6px);
+                margin-left: 0;
+            }
+
+            66.67% {
+                width: calc(50% - 6px);
+                margin-left: 50%;
+            }
+
+            100% {
+                width: 0;
+                margin-left: calc(100% - 6px);
+            }
+        }
+    </style>
+</head>
+
+
+<div class="load-screen">
+    <div class="center">
+        Loading... Please Wait
+        <div class="progress"></div>
+    </div>
+</div>
+
+<script>
+    if (/*@cc_on!@*/false) {
+        alert('IE is not supported! Please update to Firefox or a Chromium Browser!')
+    }
+
+    window.addEventListener('load', () => {
+        window.setTimeout(() => {
+
+            //Check for EI (because this site does not work on it!)
+
+
+
+            document.querySelector('.load-screen').classList.add('hide');
+        }, 750);
+    });
+</script>
+
+<!--Normal HTML begins here-->
+
+<html lang="en">
+<head>
+
+    <title>Jack Stoller | 2021 Portfolio</title>
+
+    <meta http-equiv="Cache-control" content="public">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./effects/all.css">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" >
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+    <script src="effects/break.js"></script>
+    <script src="effects/cursor.js"></script>
+    <script src="effects/noise.js"></script>
+    <script src="effects/slide.js"></script>
+    <script src="effects/typewriter.js"></script>
+    <script src="scripts.js"></script>
+
+    <noscript>
+        <style>
+            .no-script-warn {
+                display: grid;
+            }
+        </style>
+    </noscript>
+
+</head>
+<body style="background-color: rgb(25, 25, 25)">
+    <canvas id="noiseBG"></canvas>
+
+    <div class="no-script-warn">
+        <div class="content">
+            <h1>JavaScript is Disabled!</h1>
+            <p>You have JavaScript disabled! This site requires it to be enabled to use. Please re-enabled it for this site.</p>
+        </div>
+    </div>
+
+
+    <!--
+        The popup message used by skills and timeline
+    -->
+    <div class="message extra-info">
+
+        <div class="content"></div>
+
+        <div class="actions">
+            <div class="button-wrapper">
+                <button data-cursor-type="click" onclick="hideMessage()">
+                    Close
+                </button>
+
+                <!--Shadow-->
+                <div class="shadow"></div>
+            </div>
+        </div>
+    </div>
+    <div class="shadow" data-cursor-type="click" onclick="hideMessage()"></div>
+
+    <!--
+        Cusor HTML
+    -->
+
+    <div class="cursor click">
+        <svg class="scroll" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+            <text x="1.44" y="9.198" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.517508,-0.855679,0.855679,0.517508,-7.17582,5.66981)">S</text>
+            <text x="5.408" y="3.925" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.815729,-0.578434,0.578434,0.815729,-1.27376,3.85159)">C</text>
+            <text x="11.15" y=".668" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.979813,-0.199918,0.199918,0.979813,0.0916216,2.24248)">R</text>
+            <text x="17.72" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.979022,0.203754,-0.203754,0.979022,0.371694,-3.61062)">O</text>
+            <text x="24.008" y="2.008" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.813993,0.580875,-0.580875,0.813993,5.6322,-13.5722)">L</text>
+            <text x="28.962" y="6.365" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.515571,0.856847,-0.856847,0.515571,19.4837,-21.733)">L</text>
+            <g>
+              <text x="44.476" y="36.261" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.517508,0.855679,-0.855679,-0.517508,98.5199,16.9696)">S</text>
+              <text x="40.274" y="41.844" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.815729,0.578434,-0.578434,-0.815729,97.33,52.682)">C</text>
+              <text x="34.195" y="45.293" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.979813,0.199918,-0.199918,-0.979813,76.7538,82.8359)">R</text>
+              <text x="27.237" y="46" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.979022,-0.203754,0.203754,-0.979022,44.5302,96.5852)">O</text>
+              <text x="20.58" y="43.874" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.813993,-0.580875,0.580875,-0.813993,11.846,91.5407)">L</text>
+              <text x="15.334" y="39.261" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.515571,-0.856847,0.856847,-0.515571,-10.4008,72.6418)">L</text>
+            </g>
+        </svg>
+
+        <svg class="click" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+            <text x="3.155" y="6.355" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.681392,-0.731918,0.731918,0.681392,-3.64592,4.33365)">C</text>
+            <text x="8.111" y="2.003" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.91637,-0.400333,0.400333,0.91637,-0.123671,3.41443)">L</text>
+            <text x="14.404" y=".005" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.999995,-0.00317132,0.00317132,0.999995,5.60801e-05,0.045679)">I</text>
+            <text x="20.973" y=".675" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.915141,0.403133,-0.403133,0.915141,2.05182,-8.39758)">C</text>
+            <text x="26.707" y="3.927" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.678115,0.734955,-0.734955,0.678115,11.483,-18.3642)">K</text>
+            <g>
+              <text x="42.66" y="39.272" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.681392,0.731918,-0.731918,-0.681392,100.471,34.8076)">C</text>
+              <text x="37.412" y="43.879" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.91637,0.400333,-0.400333,-0.91637,89.2622,69.1109)">L</text>
+              <text x="30.749" y="45.995" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.999995,0.00317132,-0.00317132,-0.999995,61.6436,91.8913)">I</text>
+              <text x="23.793" y="45.285" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.915141,-0.403133,0.403133,-0.915141,27.3118,96.3198)">C</text>
+              <text x="17.722" y="41.842" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.678115,-0.734955,0.734955,-0.678115,-1.01184,83.24)">K</text>
+            </g>
+        </svg>
+
+        <svg class="type" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+            <text x="5.415" y="3.926" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.813993,-0.580875,0.580875,0.813993,-1.27352,3.87572)">T</text>
+            <text x="11.151" y=".674" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.979022,-0.203754,0.203754,0.979022,0.0966039,2.28625)">Y</text>
+            <text x="17.722" y="-.005" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.978379,0.20682,-0.20682,0.978379,0.382071,-3.66535)">P</text>
+            <text x="24.006" y="2.01" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:6.611px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.809689,0,0,0.809689,12,12) matrix(0.814862,0.579655,-0.579655,0.814862,5.6093,-13.5431)">E</text>
+            <g>
+              <text x="40.267" y="41.843" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.813993,0.580875,-0.580875,-0.813993,97.3486,52.5124)">T</text>
+              <text x="34.193" y="45.286" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.979022,0.203754,-0.203754,-0.979022,76.8957,82.6558)">Y</text>
+              <text x="27.236" y="46.006" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.978379,-0.20682,0.20682,-0.978379,44.3676,96.6494)">P</text>
+              <text x="20.582" y="43.872" style="font-family:'Inconsolata-Light','Inconsolata',monospace;font-weight:300;font-size:7px" transform="matrix(1.30769,0,0,1.30769,-7.69231,-7.69231) matrix(0.764706,0,0,0.764706,2.82353,2.82353) matrix(-0.814862,-0.579655,0.579655,-0.814862,11.9226,91.5524)">E</text>
+            </g>
+        </svg>
+    </div>
+
+    <nav id="nav">
+        <div id="page1Nav" onclick="gotoPage(0)" data-cursor-type="click" class="item active">
+            <div class="number">01</div>
+            <div class="name">Home</div>
+        </div>
+        <div id="page2Nav" onclick="gotoPage(1)" data-cursor-type="click" class="item">
+            <div class="number">02</div>
+            <div class="name">About</div>
+        </div>
+        <div id="page3Nav" onclick="gotoPage(2)" data-cursor-type="click" class="item">
+            <div class="number">03</div>
+            <div class="name">Skills</div>
+        </div>
+        <div id="page4Nav" onclick="gotoPage(3)" data-cursor-type="click" class="item">
+            <div class="number">04</div>
+            <div class="name">Timeline</div>
+        </div>
+        <div id="page5Nav" onclick="gotoPage(4)" data-cursor-type="click" class="item">
+            <div class="number">05</div>
+            <div class="name">Contact</div>
+        </div>
+    </nav>
+
+    <div class="nav-toggle-btn">
+        <div class="button-wrapper">
+            <button onclick="toggleNav()" title="Navigation Menu">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5">
+                    <path d="M 0 0 L 100 0" style="fill:none;stroke-width:5px" />
+                    <path d="M 0 50 L 100 50" style="fill:none;stroke-width:5px" />
+                    <path d="M 0 100 L 100 100" style="fill:none;stroke-width:5px" />
+                </svg>
+            </button>
+            <div class="shadow"></div>
+        </div>
+    </div>
+
+
+    <!--
+        JS Reads the pages by ID
+    -->
+
+    <section class="page" id="page1">
+        <header class="intro">
+
+            <h2 class="slidable">Hello World, My Name Is</h2>
+            <h1 class="break">Jack Stoller</h1>
+
+        </header>
+
+
+        <svg class="circuit right" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" viewBox="0 0 3840 2160" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="fadeGrad"  gradientTransform="rotate(90)">
+                    <stop offset="0.1" stop-color="white" stop-opacity="0.9"/>
+                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                </linearGradient>
+
+                <mask id="fade" maskContentUnits="userSpaceOnUse">
+                    <rect width="100%" height="100%" fill="url(#fadeGrad)"/>
+                </mask>
+            </defs>
+
+
+            <g style="mask: url(#fade);">
+
+                <path style="transition-delay: 53ms;" d="M679.03 2160v-491l232.07-232.07V828" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M563 2160v-491l232.07-232.07V952" stroke-width="1.46"/>
+                <path style="transition-delay: 145ms;" d="M795.07 2160v-491l232.07-232.07V678" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M1072.85 2160v-181H889.98v-179" stroke-width="1.46"/>
+                <path style="transition-delay: 42ms;" d="M1164.284 2160v-269h-182.87v-179M1350.6 2160v-564h404.88v-494l-95.81-95.807v-247.19l91.27-91.269v-133.73" stroke-width="1.46"/>
+                <path style="transition-delay: 230ms;" d="m1452.96 2160-.36-467h404.88l.36-591-95.81-95.807v-247.19l91.27-91.269v-254.73" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M1553.1 2160v-227l137.19-137.18M1674.03 2160v-227l137.19-137.18M1975.42 2160V1101l-110.87-110.87V776l102.82-102.82V243" stroke-width="1.46"/>
+                <path style="transition-delay: 100ms;" d="M1975.42 2160V1101l-110.87-110.87V776l102.82-102.82V243M2086.3 2160V1101l-110.87-110.87V776l102.82-102.82V550M2203.86 2160V1101h257.13V783l124.88-124.88V534" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M2308.99 2160v-973h257.13V783L2691 658.12l-.01-275.12" stroke-width="1.46"/>
+                <path style="transition-delay: 40ms;" d="M2394.86 2160v-884.5h257.13V783l124.88-124.88-.01-74.124" stroke-width="1.46"/>
+                <path style="transition-delay: 250ms;" d="M2500 2160v-571l425.77-425.77V965" stroke-width="1.46"/>
+                <path style="transition-delay: 120ms;" d="M2592.558 2160v-571l425.77-425.77V752" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M2691 2160v-571l425.77-425.77V1046" stroke-width="1.46"/>
+                <path style="transition-delay: 13ms;" d="M3113.25 2160v-189h-175.32l-161.07-161.07v-161.93l205.31-205.31" stroke-width="1.46"/>
+                <path style="transition-delay: 244ms;" d="M3210.15 2160v-259l-243.83 1.49-92.56-92.56V1677l150.84-150.85M3315.3 2160v-119l180.04-180.04V1361" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M3405.318 2160v-119l180.04-180.04V1446" stroke-width="1.46"/>
+                <path style="transition-delay: 38ms;" d="M3495.34 2160v-119l180.04-180.04V1286M466 2160v-206l-236.58-236.58V1505M347.71 2160v-206l-236.58-236.58V1610" stroke-width="1.46"/>
+
+                <circle cx="229.42" cy="1505" r="29" transform="translate(158.22 1037.9) scale(.31034)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1.377 883.03) scale(.47838)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(698.3 317.22) scale(.42178)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(849.54 419.11) scale(.2661)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(856.4 -455.46) scale(.74421)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(771.21 1007.4) scale(.51773)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(900.3 1175.1) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1543.9 787.38) scale(.66392)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1732.1 1259.2) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1604.7 -421.82) scale(.6351)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1706.9 -561.24) scale(.6351)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1866.9 -416.55) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1997.1 12.125) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2514.7 66.931) scale(.31034)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2615.8 -121.12) scale(.33042)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2678 -75.386) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2794.4 90.027) scale(.5718)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2934.6 192.41) scale(.3649)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3041.8 558.3) scale(.33042)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2879.2 797.61) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2920.8 875.61) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3404 756.51) scale(.39938)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3430.4 413.34) scale(.67524)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3552.3 465.92) scale(.53731)"/>
+
+            </g>
+
+        </svg>
+    </section>
+
+
+    <section class="page" id="page2">
+
+        <article class="about">
+
+            <h1 class="break">About Me</h1>
+
+            <p class="slidable">
+                I'm a junior <strong>web dev</strong> with a bit of<br>experience in a lot of places.
+            </p>
+
+            <p class="slidable">
+                I thrive in the small sliver where <strong>extreme<br>customization</strong> and the web collide.
+            </p>
+
+            <p class="slidable">
+                I'm always excited to <strong>learn</strong> a new framework,<br>design pattern or programming language.
+            </p>
+
+            <p class="slidable">
+                I <strong>automate everything</strong> I can and dream<br>ways to automate the things I can't.
+            </p>
+        </article>
+
+        <svg class="circuit bottom left" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" viewBox="0 0 3840 2160" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="fadeGrad"  gradientTransform="rotate(90)">
+                    <stop offset="0.1" stop-color="white" stop-opacity="0.9"/>
+                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                </linearGradient>
+
+                <mask id="fade" maskContentUnits="userSpaceOnUse">
+                    <rect width="100%" height="100%" fill="url(#fadeGrad)"/>
+                </mask>
+            </defs>
+
+
+            <g style="mask: url(#fade);">
+
+                <path style="transition-delay: 53ms;" d="M679.03 2160v-491l232.07-232.07V828" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M563 2160v-491l232.07-232.07V952" stroke-width="1.46"/>
+                <path style="transition-delay: 145ms;" d="M795.07 2160v-491l232.07-232.07V678" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M1072.85 2160v-181H889.98v-179" stroke-width="1.46"/>
+                <path style="transition-delay: 42ms;" d="M1164.284 2160v-269h-182.87v-179M1350.6 2160v-564h404.88v-494l-95.81-95.807v-247.19l91.27-91.269v-133.73" stroke-width="1.46"/>
+                <path style="transition-delay: 230ms;" d="m1452.96 2160-.36-467h404.88l.36-591-95.81-95.807v-247.19l91.27-91.269v-254.73" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M1553.1 2160v-227l137.19-137.18M1674.03 2160v-227l137.19-137.18M1975.42 2160V1101l-110.87-110.87V776l102.82-102.82V243" stroke-width="1.46"/>
+                <path style="transition-delay: 100ms;" d="M1975.42 2160V1101l-110.87-110.87V776l102.82-102.82V243M2086.3 2160V1101l-110.87-110.87V776l102.82-102.82V550M2203.86 2160V1101h257.13V783l124.88-124.88V534" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M2308.99 2160v-973h257.13V783L2691 658.12l-.01-275.12" stroke-width="1.46"/>
+                <path style="transition-delay: 40ms;" d="M2394.86 2160v-884.5h257.13V783l124.88-124.88-.01-74.124" stroke-width="1.46"/>
+                <path style="transition-delay: 250ms;" d="M2500 2160v-571l425.77-425.77V965" stroke-width="1.46"/>
+                <path style="transition-delay: 120ms;" d="M2592.558 2160v-571l425.77-425.77V752" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M2691 2160v-571l425.77-425.77V1046" stroke-width="1.46"/>
+                <path style="transition-delay: 13ms;" d="M3113.25 2160v-189h-175.32l-161.07-161.07v-161.93l205.31-205.31" stroke-width="1.46"/>
+                <path style="transition-delay: 244ms;" d="M3210.15 2160v-259l-243.83 1.49-92.56-92.56V1677l150.84-150.85M3315.3 2160v-119l180.04-180.04V1361" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M3405.318 2160v-119l180.04-180.04V1446" stroke-width="1.46"/>
+                <path style="transition-delay: 38ms;" d="M3495.34 2160v-119l180.04-180.04V1286M466 2160v-206l-236.58-236.58V1505M347.71 2160v-206l-236.58-236.58V1610" stroke-width="1.46"/>
+
+                <circle cx="229.42" cy="1505" r="29" transform="translate(158.22 1037.9) scale(.31034)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1.377 883.03) scale(.47838)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(698.3 317.22) scale(.42178)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(849.54 419.11) scale(.2661)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(856.4 -455.46) scale(.74421)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(771.21 1007.4) scale(.51773)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(900.3 1175.1) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1543.9 787.38) scale(.66392)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1732.1 1259.2) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1604.7 -421.82) scale(.6351)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1706.9 -561.24) scale(.6351)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1866.9 -416.55) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1997.1 12.125) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2514.7 66.931) scale(.31034)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2615.8 -121.12) scale(.33042)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2678 -75.386) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2794.4 90.027) scale(.5718)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2934.6 192.41) scale(.3649)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3041.8 558.3) scale(.33042)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2879.2 797.61) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2920.8 875.61) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3404 756.51) scale(.39938)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3430.4 413.34) scale(.67524)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3552.3 465.92) scale(.53731)"/>
+
+            </g>
+
+        </svg>
+
+    </section>
+
+
+    <section class="page" id="page3">
+
+        <article class="skills">
+
+            <header>
+                <h1 class="break">Skills</h1>
+                <h4 class="slidable">Acquired from a countless number of failures</h4>
+            </header>
+
+            <section class="fade graphs">
+                <div class="stat" data-cursor-type="click" onclick="showMessage(`I've used the .NET framework to integrate with Azure, create websites with ASP.NET, and create helpful tools to increase day-to-day productivity. It's currently my go-to for a fast, powerful language with a mature toolset.`)">
+                    <div class="pbar">
+                        <div class="progress" style="height: 30%"></div>
+                    </div>
+                    <div class="icon">
+                        <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" version="1.1" viewBox="0 0 456 456" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+                            <path d="m456 0h-456v456h456v-456zm-374.73 291.33c-3.224 0-5.965-1.074-8.222-3.223-2.257-2.204-3.385-4.821-3.385-7.851 0-3.086 1.128-5.73 3.385-7.934s4.998-3.306 8.222-3.306c3.278 0 6.045 1.102 8.302 3.306 2.311 2.204 3.466 4.848 3.466 7.934 0 3.03-1.155 5.647-3.466 7.851-2.257 2.149-5.024 3.223-8.302 3.223zm311.39-103.64h-33.21v101.82h-19.185v-101.82h-33.129v-16.695h85.524v16.695zm-182.5 101.82h-20.958l-55.215-87.109c-1.397-2.204-2.553-4.491-3.466-6.86h-0.484c0.43 2.535 0.645 7.962 0.645 16.281v77.688h-18.54v-118.52h22.328l53.362 85.043c2.257 3.527 3.708 5.951 4.353 7.273h0.322c-0.537-3.14-0.806-8.457-0.806-15.951v-76.365h18.459v118.52zm90.282 0h-64.888v-118.52h62.309v16.695h-43.124v33.554h39.739v16.612h-39.739v35.042h45.703v16.612z"/>
+                        </svg>
+                    </div>
+                    <div class="name">
+                        .NET
+                    </div>
+                </div>
+                <div class="stat" data-cursor-type="click" onclick="showMessage(`It feels like I've done just about everything possible with vanilla JavaScript before, but I'm continually discovering new ways of doing things faster and more concisely. I use it heavily when developing websites to make them come alive. I've used many different JS frameworks for larger projects, but have always felt most confident starting from scratch for the smaller ones.`)">
+                    <div class="pbar">
+                        <div class="progress" style="height: 68%"></div>
+                    </div>
+                    <div class="icon">
+                        <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" version="1.1" viewBox="0 0 630 630" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M630,0L0,0L0,630L630,630L630,0ZM423.2,492.19C435.89,512.91 452.4,528.14 481.6,528.14C506.13,528.14 521.8,515.88 521.8,498.94C521.8,478.64 505.7,471.45 478.7,459.64L463.9,453.29C421.18,435.09 392.8,412.29 392.8,364.09C392.8,319.69 426.63,285.89 479.5,285.89C517.14,285.89 544.2,298.99 563.7,333.29L517.6,362.89C507.45,344.69 496.5,337.52 479.5,337.52C462.16,337.52 451.17,348.52 451.17,362.89C451.17,380.65 462.17,387.84 487.57,398.84L502.37,405.18C552.67,426.75 581.07,448.74 581.07,498.18C581.07,551.48 539.2,580.68 482.97,580.68C427.99,580.68 392.47,554.48 375.09,520.14L423.2,492.19ZM214.07,497.32C223.37,513.82 231.83,527.77 252.17,527.77C271.62,527.77 283.89,520.16 283.89,490.57L283.89,289.27L343.09,289.27L343.09,491.37C343.09,552.67 307.15,580.57 254.69,580.57C207.29,580.57 179.84,556.04 165.88,526.495L214.07,497.32Z" />
+                        </svg>
+                    </div>
+                    <div class="name">
+                        JavaScript
+                    </div>
+                </div>
+                <div class="stat" data-cursor-type="click" onclick="showMessage(`I love creating beatiful interfaces HTML and CSS. The power paired with the speed of develpoment lets me create just about anything I can dream up. I'm always trying to push the limits to create the coolest possible things.`)">
+                    <div class="pbar">
+                        <div class="progress" style="height: 82%"></div>
+                    </div>
+                    <div class="icon wide">
+                        <svg viewBox="0 0 791 791" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                            <path d="M181.145,601.5L33.011,560.377L0,190.12L362.734,190.12L329.688,560.319L181.145,601.5ZM245.198,311.216L241.066,357.717L75.677,357.717L79.747,403.127L237.128,403.127L231.857,462.021L181.21,475.691L181.21,475.695L181.168,475.706L130.594,462.05L127.361,425.833L81.776,425.833L88.138,497.134L181.158,522.957L181.367,522.899L181.367,522.891L274.304,497.134L274.987,489.462L285.658,369.911L286.766,357.717L294.964,265.805L67.499,265.805L71.627,311.216L245.198,311.216Z" style="fill-rule:nonzero" transform="matrix(1,0,0,1,-170.062,-180.681) matrix(1,0,0,1,95.4286,270.181) matrix(1,0,0,1,74.633,-89.5)"/>
+                            <path d="M181.367,265.805L294.964,265.805L286.766,357.717L285.658,369.911L274.987,489.462L274.304,497.134L181.367,522.891L181.367,570.023L301.397,536.746L329.637,220.394L181.367,220.394L181.367,265.805ZM181.367,403.127L181.367,475.649L231.857,462.021L237.128,403.127L181.367,403.127ZM181.367,311.216L181.367,357.717L241.066,357.717L245.198,311.216L181.367,311.216Z" style="fill:#fff;fill-opacity:.3;fill-rule:nonzero" transform="matrix(1,0,0,1,-170.062,-180.681) matrix(1,0,0,1,95.4286,270.181) matrix(1,0,0,1,74.633,-89.5)"/>
+                            <g>
+                              <path d="M791.305,190.12L758.259,560.319L609.716,601.5L461.582,560.377L428.571,190.12L791.305,190.12ZM609.938,522.891L702.875,497.134L703.558,489.462L714.229,369.911L715.337,357.717L549.848,357.717L545.698,311.216L719.469,311.216L720.38,301.009L722.449,277.988L723.535,265.805L496.07,265.805L497.157,277.988L508.318,403.127L665.699,403.127L660.428,462.021L609.781,475.691L609.781,475.695L609.739,475.706L559.165,462.05L555.932,425.833L510.347,425.833L516.709,497.134L609.729,522.957L609.938,522.899L609.938,522.891Z" style="fill-rule:nonzero" transform="matrix(1,0,0,1,-170.062,-180.681) matrix(1,0,0,1,524,270.181) matrix(1,0,0,1,-353.938,-89.5)"/>
+                              <path d="M609.938,357.717L715.337,357.717L714.229,369.911L703.558,489.462L702.875,497.134L609.938,522.891L609.938,570.023L729.968,536.746L758.208,220.394L609.938,220.394L609.938,265.805L723.535,265.805L722.449,277.988L720.38,301.009L719.469,311.216L609.938,311.216L609.938,357.717ZM609.938,403.127L609.938,475.649L660.428,462.021L665.699,403.127L609.938,403.127Z" style="fill:#fff;fill-opacity:.3;fill-rule:nonzero" transform="matrix(1,0,0,1,-170.062,-180.681) matrix(1,0,0,1,524,270.181) matrix(1,0,0,1,-353.938,-89.5)"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="name">
+                        HTML & CSS
+                    </div>
+                </div>
+                <div class="stat" data-cursor-type="click" onclick="showMessage(`I've used PHP to quickly add a server component to websites. It's not my first choice, but economically it often makes the most sense for small projects.`)">
+                    <div class="pbar">
+                        <div class="progress" style="height: 40%"></div>
+                    </div>
+                    <div class="icon wide">
+                        <svg viewBox="0 0 2500 2500" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                            <path d="M1250,0.203C1939.89,0.203 2500,291.765 2500,650.887C2500,1010.01 1939.89,1301.57 1250,1301.57C560.106,1301.57 0,1010.01 0,650.887C0,291.765 560.106,0.203 1250,0.203ZM351.025,1036.16L488.018,342.664L804.785,342.664C941.768,351.229 1010.26,419.715 1010.26,539.588C1010.26,745.066 847.598,864.93 702.041,856.365L547.949,856.365L513.701,1036.16L351.025,1036.16ZM1498.29,1036.16L1635.27,342.664L1952.05,342.664C2089.04,351.229 2157.54,419.715 2157.54,539.588C2157.54,745.066 1994.86,864.93 1849.32,856.365L1695.2,856.365L1660.96,1036.16L1498.29,1036.16ZM978.437,856.365L1115.42,162.879L1278.1,162.879L1243.85,342.664L1397.95,342.664C1534.94,351.229 1586.31,419.715 1569.19,505.34L1509.26,856.365L1338.03,856.365L1397.96,539.588C1406.51,496.775 1406.51,471.092 1346.59,471.092L1218.16,471.092L1141.11,856.365L978.437,856.365ZM582.188,727.947L625,471.092L736.299,471.092C796.23,471.092 839.033,496.775 839.033,548.143C830.479,693.699 761.982,719.383 684.932,727.947L582.188,727.947ZM1729.44,727.947L1772.26,471.092L1883.56,471.092C1943.5,471.092 1986.3,496.775 1986.3,548.143C1977.74,693.699 1909.25,719.383 1832.2,727.947L1729.44,727.947Z" transform="matrix(1,0,0,1,0,595.5)"/>
+                        </svg>
+                    </div>
+                    <div class="name">
+                        PHP
+                    </div>
+                </div>
+                <div class="stat" data-cursor-type="click" onclick="showMessage(`I've made a few Unity powered games. I especially like making dynamic content that is either generated with an algorithm or retrieved externally.`)">
+                    <div class="pbar">
+                        <div class="progress" style="height: 45%"></div>
+                    </div>
+                    <div class="icon">
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                            <path d="M665.4,276L472.6,326.2L444.1,375.2L386.2,374.8L245,512L386.1,649.2L444,648.8L472.6,697.7L665.4,748L717,560.6L687.7,512L717,463.5L665.4,276ZM448.7,383.1L596.2,346.2L511.5,488.8L342.1,488.8L448.7,383.1ZM448.7,640.9L342.1,535.2L511.4,535.2L596.1,677.8L448.7,640.9ZM637.4,654.6L552.7,512L637.4,369.4L678.3,512L637.4,654.6Z" style="fill-rule:nonzero" transform="matrix(2.16949,0,0,2.16949,-531.525,-598.78)"/>
+                        </svg>
+                    </div>
+                    <div class="name">
+                        Unity
+                    </div>
+                </div>
+                <div class="stat" data-cursor-type="click" onclick="showMessage(`Rust is my new favorite language. I've just started and have a ton to learn. The control given to the programmer makes it my go-to for any memory-intensive or high-performing application.`)">
+                    <div class="pbar">
+                        <div class="progress" style="height: 15%"></div>
+                    </div>
+                    <div class="icon">
+                        <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                            <path d="M29.994,7.538C29.994,7.537 29.994,7.536 29.994,7.535C29.994,6.492 30.852,5.635 31.894,5.635C32.229,5.635 32.557,5.723 32.847,5.891C33.438,6.229 33.803,6.86 33.803,7.54C33.803,8.582 32.946,9.44 31.903,9.44L31.894,9.44C30.852,9.44 29.994,8.582 29.994,7.54C29.994,7.539 29.994,7.539 29.994,7.538M7.302,24.738C7.302,23.688 8.154,22.836 9.204,22.836C10.247,22.836 11.106,23.695 11.106,24.738C11.106,25.781 10.247,26.64 9.204,26.64C9.203,26.64 9.203,26.64 9.202,26.64C8.16,26.64 7.302,25.782 7.302,24.74C7.302,24.739 7.302,24.739 7.302,24.738M52.686,24.826C52.686,23.783 53.545,22.924 54.588,22.924C55.631,22.924 56.49,23.783 56.49,24.826C56.49,25.869 55.631,26.728 54.588,26.728C53.545,26.728 52.686,25.869 52.686,24.826M12.806,27.458C13.675,27.07 14.073,26.037 13.688,25.166L12.844,23.258L16.164,23.258L16.164,38.218L9.464,38.218C8.638,35.315 8.38,32.279 8.706,29.278L12.806,27.458ZM26.69,27.826L26.69,23.418L34.594,23.418C35.002,23.418 37.474,23.89 37.474,25.738C37.474,27.274 35.574,27.826 34.014,27.826L26.69,27.826ZM15.898,51.566C15.898,51.565 15.898,51.564 15.898,51.563C15.898,50.52 16.756,49.663 17.798,49.663C18.133,49.663 18.461,49.751 18.751,49.919C19.342,50.257 19.707,50.888 19.707,51.568C19.707,52.61 18.85,53.468 17.807,53.468L17.798,53.468C16.756,53.468 15.898,52.61 15.898,51.568C15.898,51.567 15.898,51.567 15.898,51.566M44.084,51.654C44.084,50.604 44.936,49.752 45.986,49.752C47.029,49.752 47.888,50.611 47.888,51.654C47.888,52.697 47.029,53.556 45.986,53.556C44.936,53.556 44.084,52.704 44.084,51.654M44.672,47.34C43.732,47.14 42.812,47.736 42.612,48.674L41.658,53.13C35.448,55.942 28.31,55.908 22.128,53.036L21.174,48.58C21.006,47.783 20.296,47.207 19.481,47.207C19.358,47.207 19.235,47.22 19.114,47.246L15.18,48.09C14.449,47.337 13.77,46.536 13.146,45.692L32.286,45.692C32.502,45.692 32.646,45.652 32.646,45.456L32.646,38.686C32.646,38.486 32.502,38.45 32.286,38.45L26.686,38.45L26.686,34.158L32.74,34.158C33.292,34.158 35.694,34.318 36.464,37.386L37.594,42.386C37.954,43.486 39.42,45.692 40.98,45.692L50.86,45.692C50.197,46.579 49.472,47.418 48.69,48.202L44.672,47.34ZM55.3,29.464C55.435,30.815 55.451,32.176 55.35,33.53L52.95,33.53C52.71,33.53 52.61,33.69 52.61,33.924L52.61,35.028C52.61,37.628 51.146,38.188 49.862,38.334C48.662,38.474 47.262,37.822 47.118,37.074C46.398,33.018 45.198,32.154 43.318,30.674C45.672,29.178 48.122,26.974 48.122,24.02C48.122,20.832 45.936,18.824 44.446,17.82C42.356,16.42 40.042,16.166 39.418,16.166L14.548,16.166C17.983,12.328 22.589,9.729 27.65,8.772L30.58,11.846C30.906,12.189 31.36,12.384 31.834,12.384C32.28,12.384 32.71,12.211 33.032,11.902L36.312,8.768C43.07,10.033 48.94,14.213 52.346,20.186L50.102,25.254C49.717,26.125 50.115,27.158 50.984,27.546L55.3,29.464ZM60.896,29.544L60.82,28.76L63.132,26.604C63.602,26.164 63.426,25.284 62.826,25.06L59.872,23.956L59.64,23.196L61.48,20.636C61.856,20.116 61.51,19.286 60.88,19.182L57.764,18.676L57.39,17.976L58.7,15.102C58.968,14.516 58.47,13.768 57.826,13.792L54.666,13.902L54.166,13.296L54.892,10.216C55.038,9.59 54.404,8.956 53.778,9.102L50.698,9.828L50.09,9.328L50.2,6.168C50.224,5.528 49.476,5.028 48.892,5.294L46.02,6.604L45.32,6.228L44.812,3.112C44.712,2.48 43.878,2.136 43.358,2.512L40.798,4.352L40.038,4.122L38.934,1.17C38.71,0.57 37.828,0.394 37.39,0.862L35.234,3.174L34.45,3.098L32.786,0.408C32.45,-0.136 31.546,-0.136 31.212,0.408L29.548,3.098L28.764,3.174L26.604,0.858C26.164,0.39 25.284,0.564 25.06,1.166L23.954,4.118L23.194,4.348L20.634,2.508C20.114,2.132 19.282,2.478 19.18,3.108L18.674,6.226L17.994,6.602L15.122,5.292C14.538,5.026 13.788,5.526 13.814,6.166L13.924,9.326L13.316,9.826L10.236,9.1C9.61,8.954 8.976,9.588 9.122,10.214L9.848,13.294L9.348,13.9L6.188,13.79C5.548,13.77 5.048,14.514 5.314,15.1L6.624,17.974L6.248,18.674L3.132,19.18C2.5,19.28 2.156,20.114 2.532,20.634L4.372,23.194L4.14,23.954L1.186,25.058C0.586,25.282 0.41,26.164 0.88,26.602L3.174,28.758L3.098,29.542L0.408,31.206C-0.136,31.542 -0.136,32.446 0.408,32.78L3.098,34.444L3.174,35.228L0.854,37.392C0.386,37.832 0.56,38.712 1.16,38.936L4.114,40.04L4.346,40.8L2.506,43.36C2.132,43.88 2.476,44.712 3.106,44.814L6.22,45.32L6.596,46.02L5.286,48.892C5.02,49.476 5.522,50.226 6.16,50.202L9.32,50.092L9.82,50.7L9.094,53.78C8.948,54.404 9.582,55.04 10.208,54.892L13.288,54.166L13.896,54.666L13.786,57.826C13.762,58.466 14.51,58.966 15.094,58.7L17.966,57.39L18.666,57.766L19.174,60.88C19.274,61.514 20.108,61.856 20.628,61.484L23.188,59.64L23.948,59.872L25.052,62.826C25.276,63.426 26.158,63.602 26.596,63.132L28.752,60.82L29.536,60.9L31.2,63.59C31.382,63.843 31.675,63.993 31.987,63.993C32.299,63.993 32.592,63.843 32.774,63.59L34.438,60.9L35.222,60.82L37.378,63.132C37.818,63.602 38.698,63.426 38.922,62.826L40.026,59.872L40.786,59.64L43.346,61.484C43.866,61.858 44.698,61.514 44.8,60.88L45.308,57.766L46.008,57.39L48.88,58.7C49.464,58.966 50.212,58.468 50.188,57.826L50.078,54.666L50.684,54.166L53.764,54.892C54.39,55.038 55.024,54.404 54.878,53.78L54.152,50.7L54.652,50.092L57.812,50.202C58.452,50.228 58.952,49.476 58.686,48.892L57.376,46.02L57.75,45.32L60.866,44.814C61.303,44.716 61.617,44.325 61.617,43.877C61.617,43.694 61.565,43.514 61.466,43.36L59.626,40.8L59.858,40.04L62.812,38.936C63.412,38.71 63.588,37.83 63.118,37.392L60.806,35.236L60.882,34.452L63.572,32.788C64.116,32.452 64.118,31.552 63.572,31.214L60.896,29.544Z" style="fill-rule:nonzero" transform="matrix(1.03156,0,0,1.03156,-3.34621e-13,-0.00629903)"/>
+                        </svg>
+                    </div>
+                    <div class="name">
+                        Rust
+                    </div>
+                </div>
+            </section>
+            <p class="slidable">Click skill for more info</p>
+        </article>
+    </section>
+
+    <section class="page" id="page4">
+
+
+        <header>
+            <h1 class="break">Timeline</h1>
+            <h4 class="slidable">Some events that have occured in my dev career</h4>
+        </header>
+
+        <section class="timeline">
+            <div class="event" data-cursor-type="click" onclick="showMessage(`Ever since I discovered HTML serval years ago I've been making small websites empowered with JS. This event represents lots of trial and error, experimentation, and success. I've designed several cool projects like real-time chat applications, basic (and insecure) authentication modules, simple 3d rendering engines, and a lot more.`)">
+                <div class="name">First Website</div>
+                <div class="icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                        <path d="M3.311-68.758 19.866-68.758 19.866-67.544C19.498-67.103 19.259-66.624 19.149-66.109 19.038-65.594 18.983-64.711 18.983-63.461L18.983-41.829 36.31-41.829 36.31-68.758 52.865-68.758 52.865-67.544C52.498-67.103 52.258-66.624 52.148-66.109 52.038-65.594 51.982-64.711 51.982-63.461L51.982 0 36.31 0 36.31-29.688 18.983-29.688 18.983 0 3.311 0 3.311-68.758ZM74.939 0 74.939-55.845 57.17-55.845 57.17-68.758 108.6-68.758 108.6-55.845 89.728-55.845 89.728 0 74.939 0ZM113.236 0 113.236-68.758 127.363-68.758 138.289-38.628 149.105-68.868 163.342-68.868 163.342 0 150.208 0 150.208-45.471 142.152-21.742 133.985-21.742 126.259-45.471 126.259 0 113.236 0ZM171.178-68.758 187.733-68.758 187.733-67.544C187.365-67.103 187.126-66.624 187.015-66.109 186.905-65.594 186.85-64.711 186.85-63.461L186.85-12.582 217.311-12.582 217.311 0 171.178 0 171.178-68.758Z" style="fill-rule:nonzero;stroke:none;" transform="matrix(2.39252,0,0,2.39252,-7.92161,338.385)"/>
+                      </svg>
+                </div>
+            </div>
+            <div class="event" data-cursor-type="click" onclick="showMessage(`With the help of a friend, we released a Unity based game called Free Fall to the Play Store. It was simple and basic, but it was still a complete game with infinitely generating levels.`)">
+                <div class="name">First Game</div>
+                <div class="icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5">
+                        <path d="M368,812L368,848.689" style="fill:none;stroke-width:8.88px" transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(0.689857,0,0,0.689857,114.496,250.87)"/>
+                        <path d="M368,812L368,848.689" style="fill:none;stroke-width:8.88px" transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(0.689857,0,0,0.689857,114.496,250.87) matrix(6.12323e-17,1,-1,6.12323e-17,1198.34,462.345)"/>
+                        <circle cx="468" cy="813" r="2.5" transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(0.919809,0,0,0.919809,9.59549,69.7237) matrix(2.41596,0,0,2.41596,-634.157,-1158.97)"/>
+                        <circle cx="468" cy="813" r="2.5" transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(0.919809,0,0,0.919809,9.59549,69.7237) matrix(2.41596,0,0,2.41596,-634.157,-1129.98)"/>
+                        <circle cx="468" cy="813" r="2.5" transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(0.919809,0,0,0.919809,9.59549,69.7237) matrix(2.41596,0,0,2.41596,-648.652,-1144.48)"/>
+                        <circle cx="468" cy="813" r="2.5" transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(0.919809,0,0,0.919809,9.59549,69.7237) matrix(2.41596,0,0,2.41596,-619.661,-1144.48)"/>
+                        <g transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(3.52821,0,0,3.52821,-1198.62,-2005.85)">
+                          <circle cx="468" cy="813" r="3" style="fill:none;stroke-width:1.58px"/>
+                        </g>
+                        <g>
+                          <path d="M148.496,318.486C138.152,336.253 129.552,361.145 108.37,382.99C85.102,406.987 41.265,415.2 19.792,377.622C-3.124,337.518 4.957,221.583 65.423,136.045C97.116,86.262 158.663,118.593 188.895,122.624C229.158,127.993 256,127.993 256,127.993C261.368,127.993 282.842,127.993 323.105,122.624C353.337,118.593 414.884,86.262 446.577,136.045C507.043,221.583 515.124,337.518 492.208,377.622C470.735,415.2 426.898,406.987 403.63,382.99C383.566,362.298 374.79,338.872 365.128,321.356C367.706,317.081 369.19,312.071 369.19,306.718C369.19,291.037 356.459,278.307 340.779,278.307C331.358,278.307 323.002,282.902 317.831,289.973C286.796,283.12 256,283.675 256,283.675C256,283.675 226.961,283.152 196.873,289.394C191.677,282.653 183.522,278.307 174.36,278.307C158.679,278.307 145.948,291.037 145.948,306.718C145.948,310.914 146.86,314.899 148.496,318.486Z" style="fill:none;stroke-width:15px" transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(0.372553,0,0,0.372553,325.626,748.316)"/>
+                        </g>
+                        <g transform="matrix(2.68418,0,0,2.68418,-874.041,-2008.62) matrix(3.52821,0,0,3.52821,-1260.62,-2005.85)">
+                          <circle cx="468" cy="813" r="3" style="fill:none;stroke-width:1.58px"/>
+                        </g>
+                      </svg>
+                </div>
+            </div>
+            <div class="event" data-cursor-type="click" onclick="showMessage('When classes went virtual at the start of COVID-19, I created a video-sharing platform where teachers could post videos. Simplicity was key. Students could post comments and engage in discussions.')">
+                <div class="name">OurClass.Site</div>
+                <div class="icon small">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5">
+                        <path d="M437.07 186.112 449.077 178.956 460.682 186.255M422 177 476.713 145" style="fill:none;stroke-width:2.5px" transform="matrix(7.62571,0,0,7.62571,-3169.04,-971.74)"/>
+                        <path d="M449,127L477.579,143.5L477.579,176.5L449,193L420.421,176.5L420.421,143.5L449,127Z" style="fill:none;stroke-width:2.58px" transform="matrix(7.39463,0,0,7.39463,-3065.28,-927.141)"/>
+                        <path d="M449,127L477.579,143.5L477.579,176.5L449,193L420.421,176.5L420.421,143.5L449,127Z" style="fill:none;stroke-width:4.58px" transform="matrix(4.15948,0,0,4.15948,-1612.7,-409.517)"/>
+                        <path d="M422,145L476.713,177" style="fill:none;stroke-width:2.5px" transform="matrix(7.62571,0,0,7.62571,-3169.04,-971.74)"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="event" data-cursor-type="click" onclick='showMessage(`I wanted to take a snapshot of my current skill level so I created my 2020 "Portfolio". I used every trick I knew to create the best page I could. I emphasized transitions and used a more book page approach to scrolling for a unique feel.`)'>
+                <div class="name">2020 Portfolio</div>
+                <div class="icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                        <path d="M70.698 362.358C71.178 361.911 71.598 361.518 71.958 361.181 72.318 360.844 72.628 360.543 72.888 360.281 73.148 360.018 73.36 359.776 73.524 359.557 73.688 359.337 73.808 359.121 73.884 358.909 73.96 358.697 73.998 358.47 73.998 358.227 73.998 358.109 73.982 358.003 73.95 357.909 73.918 357.815 73.866 357.734 73.794 357.668 73.722 357.601 73.628 357.548 73.512 357.509 73.396 357.469 73.254 357.45 73.086 357.45 72.934 357.45 72.794 357.464 72.666 357.492 72.538 357.52 72.418 357.566 72.306 357.63 72.194 357.694 72.09 357.778 71.994 357.882 71.914 357.986 71.864 358.066 71.844 358.122 71.824 358.178 71.818 358.238 71.826 358.302L71.742 358.41 71.658 358.35 70.518 357.474C70.71 357.162 70.942 356.902 71.214 356.694 71.486 356.486 71.784 356.328 72.108 356.22 72.432 356.112 72.766 356.058 73.11 356.058 73.558 356.058 73.968 356.146 74.34 356.324 74.712 356.501 75.01 356.749 75.234 357.068 75.458 357.387 75.57 357.763 75.57 358.196 75.57 358.488 75.534 358.76 75.462 359.012 75.39 359.264 75.284 359.508 75.144 359.744 75.004 359.981 74.83 360.225 74.622 360.477 74.414 360.729 74.168 360.997 73.884 361.281 73.6 361.564 73.282 361.879 72.93 362.226L75.006 362.226C75.142 362.226 75.238 362.218 75.294 362.202 75.35 362.186 75.402 362.158 75.45 362.118L75.582 362.118 75.582 363.582 70.698 363.582 70.698 362.358ZM77.406 361.086 80.598 357.642 80.814 358.758 77.622 362.202 77.406 361.086ZM79.134 363.714C78.59 363.714 78.114 363.568 77.706 363.276 77.298 362.984 76.982 362.556 76.758 361.992 76.534 361.428 76.422 360.74 76.422 359.927 76.422 359.115 76.534 358.421 76.758 357.845 76.982 357.269 77.298 356.827 77.706 356.519 78.114 356.212 78.59 356.058 79.134 356.058 79.678 356.058 80.154 356.212 80.562 356.519 80.97 356.827 81.286 357.269 81.51 357.845 81.734 358.421 81.846 359.115 81.846 359.927 81.846 360.74 81.734 361.428 81.51 361.992 81.286 362.556 80.97 362.984 80.562 363.276 80.154 363.568 79.678 363.714 79.134 363.714ZM79.134 362.478C79.414 362.478 79.64 362.378 79.812 362.178 79.984 361.978 80.112 361.689 80.196 361.309 80.28 360.929 80.322 360.468 80.322 359.928 80.322 359.379 80.28 358.917 80.196 358.541 80.112 358.165 79.984 357.877 79.812 357.677 79.64 357.478 79.414 357.378 79.134 357.378 78.862 357.378 78.638 357.478 78.462 357.677 78.286 357.877 78.156 358.165 78.072 358.541 77.988 358.917 77.946 359.379 77.946 359.928 77.946 360.468 77.988 360.929 78.072 361.309 78.156 361.689 78.286 361.978 78.462 362.178 78.638 362.378 78.862 362.478 79.134 362.478ZM82.698 362.358C83.178 361.911 83.598 361.518 83.958 361.181 84.318 360.844 84.628 360.543 84.888 360.281 85.148 360.018 85.36 359.776 85.524 359.557 85.688 359.337 85.808 359.121 85.884 358.909 85.96 358.697 85.998 358.47 85.998 358.227 85.998 358.109 85.982 358.003 85.95 357.909 85.918 357.815 85.866 357.734 85.794 357.668 85.722 357.601 85.628 357.548 85.512 357.509 85.396 357.469 85.254 357.45 85.086 357.45 84.934 357.45 84.794 357.464 84.666 357.492 84.538 357.52 84.418 357.566 84.306 357.63 84.194 357.694 84.09 357.778 83.994 357.882 83.914 357.986 83.864 358.066 83.844 358.122 83.824 358.178 83.818 358.238 83.826 358.302L83.742 358.41 83.658 358.35 82.518 357.474C82.71 357.162 82.942 356.902 83.214 356.694 83.486 356.486 83.784 356.328 84.108 356.22 84.432 356.112 84.766 356.058 85.11 356.058 85.558 356.058 85.968 356.146 86.34 356.324 86.712 356.501 87.01 356.749 87.234 357.068 87.458 357.387 87.57 357.763 87.57 358.196 87.57 358.488 87.534 358.76 87.462 359.012 87.39 359.264 87.284 359.508 87.144 359.744 87.004 359.981 86.83 360.225 86.622 360.477 86.414 360.729 86.168 360.997 85.884 361.281 85.6 361.564 85.282 361.879 84.93 362.226L87.006 362.226C87.142 362.226 87.238 362.218 87.294 362.202 87.35 362.186 87.402 362.158 87.45 362.118L87.582 362.118 87.582 363.582 82.698 363.582 82.698 362.358ZM89.406 361.086 92.598 357.642 92.814 358.758 89.622 362.202 89.406 361.086ZM91.134 363.714C90.59 363.714 90.114 363.568 89.706 363.276 89.298 362.984 88.982 362.556 88.758 361.992 88.534 361.428 88.422 360.74 88.422 359.927 88.422 359.115 88.534 358.421 88.758 357.845 88.982 357.269 89.298 356.827 89.706 356.519 90.114 356.212 90.59 356.058 91.134 356.058 91.678 356.058 92.154 356.212 92.562 356.519 92.97 356.827 93.286 357.269 93.51 357.845 93.734 358.421 93.846 359.115 93.846 359.927 93.846 360.74 93.734 361.428 93.51 361.992 93.286 362.556 92.97 362.984 92.562 363.276 92.154 363.568 91.678 363.714 91.134 363.714ZM91.134 362.478C91.414 362.478 91.64 362.378 91.812 362.178 91.984 361.978 92.112 361.689 92.196 361.309 92.28 360.929 92.322 360.468 92.322 359.928 92.322 359.379 92.28 358.917 92.196 358.541 92.112 358.165 91.984 357.877 91.812 357.677 91.64 357.478 91.414 357.378 91.134 357.378 90.862 357.378 90.638 357.478 90.462 357.677 90.286 357.877 90.156 358.165 90.072 358.541 89.988 358.917 89.946 359.379 89.946 359.928 89.946 360.468 89.988 360.929 90.072 361.309 90.156 361.689 90.286 361.978 90.462 362.178 90.638 362.378 90.862 362.478 91.134 362.478Z" style="fill-rule:nonzero;stroke:none;" transform="matrix(21.5928,0,0,21.5928,-1518.53,-7514.93)"/>
+                      </svg>
+                </div>
+                <div class="desc extra-info ">
+                    <div class="typewriter">
+
+                    </div>
+                </div>
+            </div>
+            <div class="event" data-cursor-type="click" onclick="showMessage(`I was able to get my first job as a programmer in early 2021 at Palitto Consulting Services. It's been a great experience and my knowledge has grown considerably from being exposed to so many new concepts. It's allowed me to work in a wide variety of sectors in the programming world.`)">
+                <div class="name">Job</div>
+                <div class="icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                        <path style="stroke:none" d="M2543,1269L2447,1269C2411,1274 2404,1316 2446,1324L2511,1325C2521,1328 2521,1337 2511,1339L2436,1339L2418,1363L2513,1363C2555,1363 2561,1307 2514,1301L2454,1301C2448,1300 2448,1293 2454,1292L2525,1292L2543,1269Z" transform="matrix(1.32325,0,0,1.32325,-2858.22,-1486.72)"/>
+                        <path style="stroke:none" d="M2418,1269L2343,1269C2276,1271 2277,1359 2343,1365L2400,1365L2418,1339L2343,1339.47C2313,1333 2320,1294 2343,1293.62L2400,1292L2418,1269Z" transform="matrix(1.32325,0,0,1.32325,-2858.22,-1486.72)"/>
+                        <path style="stroke:none" d="M2160,1315L2160,1365L2190,1365L2190,1341L2249,1340C2269.54,1340.47 2288.99,1320.87 2288,1304C2287,1287 2279.93,1269 2249,1269L2180,1269L2160,1293L2248,1293C2261,1293 2261,1314 2248,1314L2160,1315Z" transform="matrix(1.32325,0,0,1.32325,-2858.22,-1486.72)"/>
+                      </svg>
+                </div>
+            </div>
+            <div class="event" data-cursor-type="click" onclick="showMessage(`I started attending the University of Akron as a full-time student in Fall 2021 as a CCP student. I plan to get a Bachelor's Degree in Cybersecurity.`)">
+                <div class="name">Education</div>
+                <div class="icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                        <path d="M80.463 43.852 89.256 43.852 89.256 44.394C88.028 44.394 86.761 44.475 86.761 45.457 86.761 45.666 86.804 46.168 87.076 46.836L90.467 55.505 93.977 47.067C94.112 46.362 94.185 46.194 94.076 45.714 93.84 44.673 92.713 44.391 91.508 44.394L91.508 43.852 98.139 43.852 98.139 44.394C96.581 44.469 95.751 45.4 95.051 46.517L89.43 59.386 88.834 59.386 83.714 46.552C83.064 45.233 83 44.538 80.463 44.394L80.463 43.852ZM108.634 59 108.634 58.466C110.341 58.361 110.798 58.228 110.798 56.405L110.798 47.534C110.798 46.166 109.939 46.096 108.653 45.764 108.653 45.764 112.524 43.722 113.895 43.062L113.895 47.579C114.424 46.097 115.678 43.267 117.602 43.246 118.644 43.233 119.41 44.045 119.41 45.133 119.41 45.816 119.174 46.955 117.778 46.955 116.703 46.955 116.771 46.068 115.86 46.068 115.089 46.068 113.965 48.468 113.965 49.503L113.965 56.405C113.965 58.153 114.504 58.335 116.609 58.466L116.609 59 108.634 59ZM140.352 40.613 140.352 43.851 145.541 43.851 144.7 45.406 140.351 45.406 140.351 54.862C140.351 56.614 141.091 57.698 143.02 57.698 143.931 57.698 144.94 56.888 145.61 56.368L145.968 56.711C145.734 56.984 145.418 57.365 145.191 57.563 144.073 58.521 142.701 59.386 141.228 59.386 138.703 59.386 137.548 57.483 137.403 55.212L137.403 45.406 135.032 45.406 140.352 40.613Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M142.748 43.852 150.291 43.852 150.291 44.394C148.067 44.317 147.495 44.665 148.045 45.865 148.256 46.33 152.629 56 152.629 56L156.156 47.07C156.824 45.229 156.807 44.391 153.622 44.394L153.622 43.852 160.477 43.852 160.477 44.394C157.887 44.326 157.424 45.322 156.899 46.865 156.899 46.865 151.014 61.751 150.656 62.741 150.203 63.995 149.186 64.864 147.334 64.783 146.3 64.738 145.366 63.719 145.366 62.983 145.366 62.14 145.983 61.353 146.877 61.374 147.649 61.394 147.871 61.691 148.156 62.065 148.407 62.397 148.395 62.592 148.427 62.993 148.484 63.745 149.455 64.096 150.028 62.641 150.799 60.686 151.17 59.772 151.17 59.772L144.649 46.123C144.305 45.42 142.748 43.852 142.748 43.852M96.228 38.788 96.228 39.325 84.736 39.325 84.736 38.788C88.295 38.621 88.409 36.845 88.404 36.425L88.404 15.469 85.18 15.469C82.558 15.678 82.24 15.99 81.144 16.9 79.81 18.009 78.895 19.394 78.069 21.338L77.569 21.267 78.831 14.587C84.094 14.768 84.914 14.75 86.157 14.733L95.48 14.733C95.865 14.733 99.906 14.754 102.272 14.55L96.874 15.413 92.477 15.407 92.477 36.426C92.507 36.853 92.69 38.602 96.228 38.788" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M102.538,14.55L102.538,27.112C103.257,25.71 105.078,23.494 107.251,23.494C108.864,23.494 110.389,24.147 111.195,25.55C111.931,26.777 112.056,28.016 112.056,29.383L112.056,36.432C112.056,38.254 112.91,38.703 114.452,38.808L114.452,39.324L106.993,39.324L106.993,38.808C108.43,38.703 109.086,38.288 109.086,36.432L109.086,29.383C109.086,28.261 109.116,27.745 108.628,26.818C108.201,26.005 107.15,25.525 105.855,25.553C103.818,25.595 102.538,27.637 102.538,28.468L102.538,36.433C102.538,38.255 102.927,38.704 104.4,38.809L104.4,39.325L96.871,39.325L96.871,38.809C98.449,38.704 99.502,38.255 99.502,36.433L99.502,17.004C99.502,15.916 98.003,15.308 93.937,15.413L102.538,14.55Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M115.813 29.044C115.712 29.585 115.662 30.254 115.719 30.917 116.019 34.368 118.095 37.025 121.445 37.13 123.627 37.201 125.744 35.773 126.586 33.668L127.008 33.744C126.009 37.172 124.235 39.647 120.265 39.578 115.789 39.5 113.11 36.328 112.961 31.618 112.813 26.971 115.827 23.535 120.166 23.535 123.497 23.535 126.19 25.412 126.964 29.044L115.813 29.044ZM123.074 28.359C122.92 26.103 121.946 23.996 119.829 23.996 117.642 23.996 116.564 26.184 115.95 28.435L123.074 28.359ZM26.914 73.741 26.914 73.24C28.737 73.136 29.185 72.259 29.185 70.15L29.188 59.903 26.858 59.903 27.146 58.653 29.187 58.653C29.187 58.653 29.211 56.166 29.286 54.771 29.364 53.311 30.037 48.65 34.833 48.583 36.165 48.564 37.37 49.552 37.367 50.53 37.366 51.496 36.888 51.851 36.062 51.846 34.82 51.837 34.218 50.329 34.136 49.748 34.082 49.361 33.937 49.201 33.714 49.221 32.241 49.35 32.372 52.35 32.37 53.339L32.37 58.651 35.347 58.648 35.067 59.908 32.367 59.901 32.379 70.148C32.372 71.975 32.619 73.133 34.828 73.238L34.828 73.739 26.914 73.739 26.914 73.741ZM118.627 54.22 119.093 54.196C119.756 56.305 121.091 58.789 123.888 58.756 126.023 58.733 126.942 57.228 126.892 56.085 126.798 53.906 124.41 53.224 122.753 52.295 120.691 51.149 118.838 49.993 118.838 47.49 118.838 44.806 121.428 43.347 123.895 43.347 125.553 43.347 127.171 43.721 128.718 44.257L128.917 48.048 128.302 48.072C127.862 45.926 126.214 44.027 123.747 44.027 122.2 44.027 121.24 44.909 121.24 46.375 121.24 49.452 129.69 49.335 129.69 54.557 129.69 57.812 126.583 59.386 123.565 59.386 121.908 59.386 120.274 59.047 118.776 58.224L118.627 54.22Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M128.989 45.724C128.989 45.724 132.947 43.813 134.523 43.092L134.523 56.404C134.607 58.227 135.178 58.352 136.917 58.457L136.917 59 129.172 59 129.172 58.467C130.887 58.35 131.454 58.211 131.555 56.405L131.555 47.723C131.555 46.797 131.522 46.388 130.675 46.15L128.989 45.724ZM93.012 62.541C98.135 62.575 101.47 66.198 101.476 70.729 101.482 75.267 98.325 78.745 93.162 78.736 87.92 78.727 84.923 75.007 84.892 70.477 84.863 66.16 88.163 62.508 93.012 62.541M93.196 78.057C96.767 78.082 97.983 74.381 97.964 71.564 97.944 68.533 97.459 63.25 93.136 63.22 89.451 63.193 88.393 67.967 88.41 70.642 88.429 73.389 89.512 78.033 93.196 78.057" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M100.282 78.35 100.282 77.819C101.861 77.713 102.585 77.655 102.582 75.756L102.582 67.06C102.567 65.37 101.626 65.401 100.398 65.049 100.398 65.049 104.175 63.153 105.683 62.418L105.683 66.078C106.996 64.456 108.691 62.418 110.901 62.418 113.424 62.418 115.571 65.212 115.571 68.043L115.571 75.755C115.574 77.571 116.322 77.661 117.809 77.834L117.809 78.35 110.369 78.35 110.369 77.819C111.946 77.713 112.403 77.465 112.402 75.723L112.402 69.003C112.428 66.797 111.498 64.473 109.211 64.459 107.678 64.45 105.832 66.554 105.782 68.217L105.782 75.755C105.78 77.554 106.537 77.712 108.044 77.818L108.044 78.349 100.282 78.349 100.282 78.35ZM132.934 39.433C134.034 39.433 134.925 38.541 134.925 37.441 134.925 36.342 134.034 35.451 132.934 35.451 131.834 35.451 130.942 36.343 130.942 37.441 130.942 38.541 131.833 39.433 132.934 39.433M98.148 48.967C98.047 49.509 97.997 50.176 98.054 50.84 98.354 54.291 100.43 56.949 103.78 57.054 105.963 57.123 108.079 55.695 108.921 53.592L109.344 53.668C108.345 57.096 106.571 59.57 102.602 59.501 98.125 59.424 95.446 56.251 95.297 51.542 95.15 46.894 98.163 43.457 102.501 43.457 105.833 43.457 108.526 45.335 109.3 48.967L98.148 48.967ZM105.408 48.282C105.254 46.025 104.28 43.921 102.162 43.921 99.975 43.921 98.897 46.108 98.284 48.359L105.408 48.282ZM78.609 39.433C79.709 39.433 80.6 38.541 80.6 37.441 80.6 36.342 79.709 35.451 78.609 35.451 77.51 35.451 76.618 36.343 76.618 37.441 76.619 38.541 77.511 39.433 78.609 39.433M19.72 57.8C24.844 57.834 28.178 61.459 28.184 65.989 28.19 70.527 25.033 74.005 19.87 73.995 14.63 73.985 11.632 70.267 11.6 65.736 11.57 61.421 14.869 57.769 19.72 57.8M19.903 73.318C23.474 73.341 24.691 69.641 24.672 66.823 24.651 63.791 24.167 58.508 19.843 58.479 16.158 58.453 15.101 63.226 15.118 65.901 15.137 68.647 16.22 73.293 19.903 73.318M74.665 45.724C74.665 45.724 78.622 43.813 80.2 43.092L80.2 56.404C80.284 58.227 80.856 58.352 82.594 58.457L82.594 59 75.514 59 75.514 58.375C76.368 58.328 77.132 58.211 77.231 56.404L77.231 47.722C77.231 46.796 77.197 46.387 76.351 46.149L74.665 45.724Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M58.792 59 58.792 58.466C60.371 58.361 61.094 58.305 61.091 56.405L61.091 47.708C61.078 46.018 60.135 46.05 58.908 45.7 58.908 45.7 62.685 43.804 64.193 43.067L64.193 46.728C65.506 45.107 67.2 43.067 69.41 43.067 71.934 43.067 74.08 45.863 74.08 48.693L74.08 56.405C74.083 58.219 74.946 58.362 75.92 58.374L75.92 59 68.88 59 68.88 58.466C70.457 58.361 70.915 58.112 70.913 56.371L70.913 49.654C70.939 47.444 70.009 45.122 67.722 45.108 66.189 45.1 64.343 47.204 64.293 48.865L64.293 56.405C64.29 58.204 65.048 58.36 66.555 58.466L66.555 59 58.792 59ZM60.602 77.019C60.812 77.04 61.095 77.198 61.092 75.689L61.092 59.557C62.822 59.549 62.555 59.549 64.285 59.551L64.285 70.84 68.988 66.304C69.43 65.8 69.997 65.293 69.886 64.678 69.744 63.891 68.02 63.944 67.495 63.944L67.495 63.402 75.349 63.402 75.349 63.944C71.765 64.051 69.347 67.08 68 68.195L73.041 75.168C74.105 76.628 74.867 77.664 76.482 77.693L76.49 78.35 68.414 78.35 68.414 77.817C68.94 77.817 70.169 77.882 70.169 76.887 70.169 76.416 69.746 75.91 69.33 75.395L65.663 70.393 64.285 71.681 64.285 75.556C64.283 77.721 64.725 77.711 66.231 77.817L66.231 78.35 60.602 78.35 60.602 77.019Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M76.302 78.35 76.301 77.693C76.85 77.655 77.539 77.613 77.526 75.755L77.526 66.883C77.526 65.516 76.667 65.445 75.381 65.115 75.381 65.115 79.253 63.072 80.625 62.412L80.625 66.93C81.153 65.448 82.408 62.619 84.33 62.597 85.372 62.584 86.139 63.396 86.139 64.483 86.139 65.167 85.902 66.305 84.508 66.305 83.432 66.305 83.5 65.417 82.588 65.417 81.817 65.417 80.695 67.818 80.695 68.855L80.695 75.755C80.695 77.503 81.234 77.687 83.337 77.818L83.337 78.349 76.302 78.349 76.302 78.35ZM37.028 78.351 37.028 77.813C38.104 77.745 39.377 77.324 40.58 74.951L47.642 57.127 46.752 55.471C48.077 54.815 49.335 54.015 50.16 53.092L59.022 74.39C59.754 76.258 60.353 77.175 60.892 77.025L60.892 78.351 52.27 78.351 52.27 77.814C53.407 77.814 55.672 77.658 55.352 75.99 55.133 74.849 53.331 70.583 52.515 68.741L43.813 68.741C43.462 69.72 42.59 71.704 42.027 73.237 41.588 74.434 41.495 75.152 41.495 75.152 41.254 76.445 41.818 77.821 44.479 77.814L44.479 78.351 37.028 78.351ZM44.08 68.092 52.248 68.101 48.993 60.48 48.142 58.037 44.08 68.092Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M36.472,34.332L47.056,34.332L47.056,34.877C44.396,34.876 43.337,35.892 43.437,37.807L43.437,52.127C43.337,54.645 44.26,58.452 50.146,58.452C55.688,58.453 57.454,54.235 57.414,50.181L57.414,37.807C57.38,35.36 56.338,35.019 53.892,34.877L53.892,34.332L61.751,34.332L61.751,34.877C59.406,35.043 58.288,35.405 58.238,37.807L58.238,50.182C58.338,55.111 56.459,59.198 49.047,59.198C41.848,59.198 39.54,55.891 39.557,51.17L39.557,37.807C39.595,35.38 38.959,34.867 36.472,34.877L36.472,34.332Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                        <path d="M48.127,58.522C48.312,58.522 48.462,58.372 48.462,58.188C48.462,58.002 48.312,57.853 48.127,57.853C47.942,57.853 47.792,58.002 47.792,58.188C47.792,58.372 47.942,58.522 48.127,58.522" style="fill-rule:nonzero; stroke: none;" transform="matrix(3.43908,0,0,3.43908,-39.8926,95.5912)"/>
+                      </svg>
+                </div>
+                <div class="desc extra-info ">
+                    <div class="typewriter">
+                        I started attending the University of Akron as a full-time student in Fall 2021 as a CCP student. I plan to get a Bachelor's Degree in Cybersecurity.
+                    </div>
+                </div>
+            </div>
+            <div class="event" data-cursor-type="click" onclick="showMessage(`This is a snapshot of my current skill level as of 2021. I experiment with different effects like noise, gradients, and patterns for a unique feel. I put a lot of work into creating a lot of custom effects for it. In total, I created somewhere around 15 different effects and ended up using about half in the final product.`)">
+                <div class="name">2021 Portfolio</div>
+                <div class="icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2">
+                        <path d="M70.698 362.358C71.178 361.911 71.598 361.518 71.958 361.181 72.318 360.844 72.628 360.543 72.888 360.281 73.148 360.018 73.36 359.776 73.524 359.557 73.688 359.337 73.808 359.121 73.884 358.909 73.96 358.697 73.998 358.47 73.998 358.227 73.998 358.109 73.982 358.003 73.95 357.909 73.918 357.815 73.866 357.734 73.794 357.668 73.722 357.601 73.628 357.548 73.512 357.509 73.396 357.469 73.254 357.45 73.086 357.45 72.934 357.45 72.794 357.464 72.666 357.492 72.538 357.52 72.418 357.566 72.306 357.63 72.194 357.694 72.09 357.778 71.994 357.882 71.914 357.986 71.864 358.066 71.844 358.122 71.824 358.178 71.818 358.238 71.826 358.302L71.742 358.41 71.658 358.35 70.518 357.474C70.71 357.162 70.942 356.902 71.214 356.694 71.486 356.486 71.784 356.328 72.108 356.22 72.432 356.112 72.766 356.058 73.11 356.058 73.558 356.058 73.968 356.146 74.34 356.324 74.712 356.501 75.01 356.749 75.234 357.068 75.458 357.387 75.57 357.763 75.57 358.196 75.57 358.488 75.534 358.76 75.462 359.012 75.39 359.264 75.284 359.508 75.144 359.744 75.004 359.981 74.83 360.225 74.622 360.477 74.414 360.729 74.168 360.997 73.884 361.281 73.6 361.564 73.282 361.879 72.93 362.226L75.006 362.226C75.142 362.226 75.238 362.218 75.294 362.202 75.35 362.186 75.402 362.158 75.45 362.118L75.582 362.118 75.582 363.582 70.698 363.582 70.698 362.358ZM77.406 361.086 80.598 357.642 80.814 358.758 77.622 362.202 77.406 361.086ZM79.134 363.714C78.59 363.714 78.114 363.568 77.706 363.276 77.298 362.984 76.982 362.556 76.758 361.992 76.534 361.428 76.422 360.74 76.422 359.927 76.422 359.115 76.534 358.421 76.758 357.845 76.982 357.269 77.298 356.827 77.706 356.519 78.114 356.212 78.59 356.058 79.134 356.058 79.678 356.058 80.154 356.212 80.562 356.519 80.97 356.827 81.286 357.269 81.51 357.845 81.734 358.421 81.846 359.115 81.846 359.927 81.846 360.74 81.734 361.428 81.51 361.992 81.286 362.556 80.97 362.984 80.562 363.276 80.154 363.568 79.678 363.714 79.134 363.714ZM79.134 362.478C79.414 362.478 79.64 362.378 79.812 362.178 79.984 361.978 80.112 361.689 80.196 361.309 80.28 360.929 80.322 360.468 80.322 359.928 80.322 359.379 80.28 358.917 80.196 358.541 80.112 358.165 79.984 357.877 79.812 357.677 79.64 357.478 79.414 357.378 79.134 357.378 78.862 357.378 78.638 357.478 78.462 357.677 78.286 357.877 78.156 358.165 78.072 358.541 77.988 358.917 77.946 359.379 77.946 359.928 77.946 360.468 77.988 360.929 78.072 361.309 78.156 361.689 78.286 361.978 78.462 362.178 78.638 362.378 78.862 362.478 79.134 362.478ZM82.698 362.358C83.178 361.911 83.598 361.518 83.958 361.181 84.318 360.844 84.628 360.543 84.888 360.281 85.148 360.018 85.36 359.776 85.524 359.557 85.688 359.337 85.808 359.121 85.884 358.909 85.96 358.697 85.998 358.47 85.998 358.227 85.998 358.109 85.982 358.003 85.95 357.909 85.918 357.815 85.866 357.734 85.794 357.668 85.722 357.601 85.628 357.548 85.512 357.509 85.396 357.469 85.254 357.45 85.086 357.45 84.934 357.45 84.794 357.464 84.666 357.492 84.538 357.52 84.418 357.566 84.306 357.63 84.194 357.694 84.09 357.778 83.994 357.882 83.914 357.986 83.864 358.066 83.844 358.122 83.824 358.178 83.818 358.238 83.826 358.302L83.742 358.41 83.658 358.35 82.518 357.474C82.71 357.162 82.942 356.902 83.214 356.694 83.486 356.486 83.784 356.328 84.108 356.22 84.432 356.112 84.766 356.058 85.11 356.058 85.558 356.058 85.968 356.146 86.34 356.324 86.712 356.501 87.01 356.749 87.234 357.068 87.458 357.387 87.57 357.763 87.57 358.196 87.57 358.488 87.534 358.76 87.462 359.012 87.39 359.264 87.284 359.508 87.144 359.744 87.004 359.981 86.83 360.225 86.622 360.477 86.414 360.729 86.168 360.997 85.884 361.281 85.6 361.564 85.282 361.879 84.93 362.226L87.006 362.226C87.142 362.226 87.238 362.218 87.294 362.202 87.35 362.186 87.402 362.158 87.45 362.118L87.582 362.118 87.582 363.582 82.698 363.582 82.698 362.358ZM90.45 363.582 90.45 357.87 89.202 358.374 88.842 357.198 90.87 356.106 92.154 356.106 92.154 363.582 90.45 363.582Z" style="fill-rule:nonzero; stroke: none;" transform="matrix(21.5928,0,0,21.5928,-1500.26,-7514.93)"/>
+                      </svg>
+                </div>
+            </div>
+            <div class="event">
+                <div class="name">
+                    <span>An Epic</span>
+                    <span>Future</span>
+                </div>
+            </div>
+        </section>
+
+        <p class="slidable">Click event for more info</p>
+
+
+        <svg class="circuit bottom" clip-rule="evenodd" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="1.5" viewBox="0 0 3840 2160" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.25;">
+            <defs>
+                <linearGradient id="fadeGrad"  gradientTransform="rotate(90)">
+                    <stop offset="0.1" stop-color="white" stop-opacity="0.9"/>
+                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                </linearGradient>
+
+                <mask id="fade" maskContentUnits="userSpaceOnUse">
+                    <rect width="100%" height="100%" fill="url(#fadeGrad)"/>
+                </mask>
+            </defs>
+
+
+            <g style="mask: url(#fade);">
+
+                <path style="transition-delay: 53ms;" d="M679.03 2160v-491l232.07-232.07V828" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M563 2160v-491l232.07-232.07V952" stroke-width="1.46"/>
+                <path style="transition-delay: 145ms;" d="M795.07 2160v-491l232.07-232.07V678" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M1072.85 2160v-181H889.98v-179" stroke-width="1.46"/>
+                <path style="transition-delay: 42ms;" d="M1164.284 2160v-269h-182.87v-179M1350.6 2160v-564h404.88v-494l-95.81-95.807v-247.19l91.27-91.269v-133.73" stroke-width="1.46"/>
+                <path style="transition-delay: 230ms;" d="m1452.96 2160-.36-467h404.88l.36-591-95.81-95.807v-247.19l91.27-91.269v-254.73" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M1553.1 2160v-227l137.19-137.18M1674.03 2160v-227l137.19-137.18M1975.42 2160V1101l-110.87-110.87V776l102.82-102.82V243" stroke-width="1.46"/>
+                <path style="transition-delay: 100ms;" d="M1975.42 2160V1101l-110.87-110.87V776l102.82-102.82V243M2086.3 2160V1101l-110.87-110.87V776l102.82-102.82V550M2203.86 2160V1101h257.13V783l124.88-124.88V534" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M2308.99 2160v-973h257.13V783L2691 658.12l-.01-275.12" stroke-width="1.46"/>
+                <path style="transition-delay: 40ms;" d="M2394.86 2160v-884.5h257.13V783l124.88-124.88-.01-74.124" stroke-width="1.46"/>
+                <path style="transition-delay: 250ms;" d="M2500 2160v-571l425.77-425.77V965" stroke-width="1.46"/>
+                <path style="transition-delay: 120ms;" d="M2592.558 2160v-571l425.77-425.77V752" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M2691 2160v-571l425.77-425.77V1046" stroke-width="1.46"/>
+                <path style="transition-delay: 13ms;" d="M3113.25 2160v-189h-175.32l-161.07-161.07v-161.93l205.31-205.31" stroke-width="1.46"/>
+                <path style="transition-delay: 244ms;" d="M3210.15 2160v-259l-243.83 1.49-92.56-92.56V1677l150.84-150.85M3315.3 2160v-119l180.04-180.04V1361" stroke-width="1.46"/>
+                <path style="transition-delay: 0ms;" d="M3405.318 2160v-119l180.04-180.04V1446" stroke-width="1.46"/>
+                <path style="transition-delay: 38ms;" d="M3495.34 2160v-119l180.04-180.04V1286M466 2160v-206l-236.58-236.58V1505M347.71 2160v-206l-236.58-236.58V1610" stroke-width="1.46"/>
+
+                <circle cx="229.42" cy="1505" r="29" transform="translate(158.22 1037.9) scale(.31034)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1.377 883.03) scale(.47838)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(698.3 317.22) scale(.42178)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(849.54 419.11) scale(.2661)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(856.4 -455.46) scale(.74421)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(771.21 1007.4) scale(.51773)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(900.3 1175.1) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1543.9 787.38) scale(.66392)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1732.1 1259.2) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1604.7 -421.82) scale(.6351)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1706.9 -561.24) scale(.6351)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1866.9 -416.55) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(1997.1 12.125) scale(.35357)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2514.7 66.931) scale(.31034)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2615.8 -121.12) scale(.33042)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2678 -75.386) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2794.4 90.027) scale(.5718)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2934.6 192.41) scale(.3649)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3041.8 558.3) scale(.33042)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2879.2 797.61) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(2920.8 875.61) scale(.43387)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3404 756.51) scale(.39938)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3430.4 413.34) scale(.67524)"/>
+                <circle cx="229.42" cy="1505" r="29" transform="translate(3552.3 465.92) scale(.53731)"/>
+
+            </g>
+
+        </svg>
+    </section>
+
+    <section class="page" id="page5">
+        <div class="col">
+            <header>
+                <h1 class="break">Contact</h1>
+                <p class="slidable">
+                    Let's Talk! This is an <strong>entire</strong> page dedicated to a<br>single thing. Getting you to talk to me. It can be<br>about anything. So <strong>yes</strong> you are allowed to <strong>press</strong><br>that send button.
+                </p>
+            </header>
+
+            <footer>
+                <h5 class="slidable">Or use these</h5>
+
+                <div class="channels">
+                    <a data-cursor-type="click" class="slidable" href="mailto:me@jackstoller.com">me@jackstoller.com</a>
+                    <a data-cursor-type="click" class="slidable" href="https://www.instagram.com/jack.stoller.23/">Instagram</a>
+                </div>
+            </footer>
+        </div>
+
+        <div class="col fade">
+            <form method="POST" action="myendpointthatwouldexistonarealserver.php">
+                <table>
+                    <tr>
+                        <td>
+                            <div data-cursor-type="type" class="input-wrapper">
+                                <input type="text" name="name" title="Name" placeholder=" " required>
+                                <label for="name">Your Name</label>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            <div data-cursor-type="type" class="input-wrapper">
+                                <input type="email" name="email" title="Email" placeholder=" " required>
+                                <label for="email">Your Email</label>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            <div data-cursor-type="type" class="input-wrapper">
+                                <textarea name="content" title="Message" placeholder=" " rows="3" required></textarea>
+                                <label for="content">Your Message</label>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td style="position: relative;">
+                            <button data-cursor-type="click" type="submit">
+                                Send
+                            </button>
+
+
+                            <!--Shadow-->
+                            <div class="shadow"></div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+    </section>
+</body>
+</html>

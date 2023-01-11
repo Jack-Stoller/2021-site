@@ -1,0 +1,46 @@
+/*
+
+    The Break Effect
+
+
+    Description:
+        This effect is used for animating most text.
+        It beaks the text into peices and then uses
+        CSS to explode it. The breaks are generated
+        randomly each page load. clip-path is used
+        to make the parts. This can be used on
+        images as well.
+
+    Files:
+        effects/break.css
+        effects/break.js
+
+    Classes:
+        .break
+            .broken
+            .no-ani
+
+*/
+
+.break > span {
+    position: relative;
+}
+
+.break > span > span:first-child {
+    opacity: 1;
+    transition-delay: calc(500ms + var(--explode-delay));
+}
+
+.break > span > span:not(:first-child) {
+    position: absolute;
+
+    transition: transform 0.5s ease-in-out, opacity 0.5s;
+    transform: translate(-100%);
+    transition-delay: var(--explode-delay);
+
+    user-select: none;
+}
+
+.break.no-ani > span > span {
+    transition: none !important;
+}

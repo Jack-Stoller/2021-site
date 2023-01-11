@@ -1,0 +1,99 @@
+/*
+
+    The Circuit Effect
+
+
+    Description:
+        This effect is used to style the circuit svg
+        elements.
+
+    Files:
+        effects/circuit.css
+
+    Classes:
+        .circuit (SVG elements only)
+            .active
+            .no-ani
+
+*/
+
+svg.circuit {
+    position: absolute;
+    z-index: -1;
+}
+
+svg.circuit.right {
+    right: 0px;
+    bottom: 100vh;
+
+    height: max(60vw, 100vh);
+    transform: rotate(-90deg);
+    transform-origin: bottom right;
+}
+
+
+svg.circuit.bottom {
+    left: 0;
+    bottom: -5vh;
+
+    width: max(100vw, 150vh);
+}
+
+svg.circuit.left.bottom {
+    left: 0;
+    bottom: 0;
+
+    height: min(60vw, 100vh);
+    min-height: 75vh;
+    transform: translateX(-50%) rotate(45deg);
+    transform-origin: bottom center;
+}
+
+svg.circuit.left {
+    left: 0;
+    bottom: 100vw;
+
+    height: max(60vw, 60vh);
+    transform: rotate(90deg);
+    transform-origin: bottom left;
+}
+
+
+svg.circuit
+circle {
+    transition: opacity 0.5s;
+    transition-delay: 0.75s;
+    fill: var(--secondary-color);
+}
+
+svg.circuit.no-ani
+circle {
+    transition: none;
+}
+
+
+svg.circuit:not(.active)
+circle {
+    transition-delay: 0s;
+    opacity: 0;
+}
+
+svg.circuit
+path {
+    fill: none;
+    stroke: var(--secondary-color);
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 0;
+
+    transition: stroke-dashoffset 1s ease-in-out;
+}
+
+svg.circuit.no-ani
+path {
+    transition: none;
+}
+
+svg.circuit:not(.active)
+path {
+    stroke-dashoffset: 3000;
+}

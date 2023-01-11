@@ -1,0 +1,1189 @@
+/*
+
+    This contains most the CSS styles
+
+    Some extra styles can be found the
+    effects directory
+
+*/
+
+
+
+/*
+
+    Global Styles
+
+*/
+
+html, body {
+    margin: 0px;
+
+    font-family: var(--content-font);
+    color: var(--secondary-color);
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+h1, h2, h5 {
+    margin: 0px;
+    text-transform: uppercase;
+    font-family: var(--acent-font);
+}
+
+h1 {
+    font-size: 8em;
+    font-weight: 900;
+}
+
+h2 {
+    font-size: 4em;
+    font-weight: 600;
+    color: var(--tertiary-color);
+}
+
+h4 {
+    margin: 0px;
+    font-size: 1.3em;
+    font-family: var(--acent-font);
+    color: var(--tertiary-color);
+}
+
+h5 {
+    font-size: 1.4em;
+    font-weight: 900;
+}
+
+p {
+    color: var(--tertiary-color);
+}
+
+p {
+    font-size: 22px;
+    line-height: 1.75;
+}
+
+p strong {
+    color: var(--secondary-color);
+    font-weight: normal;
+    font-family: var(--acent-font);
+    font-size: 1.15em;
+}
+
+
+
+/*
+
+    Global Page Styles
+
+*/
+
+section.page {
+    position: fixed;
+    display:  grid;
+
+    top: 0px;
+    left: 0px;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+section.page:not(.active) {
+    pointer-events: none;
+}
+
+
+
+/*
+
+    Extra Info / Message Styles
+
+*/
+
+.extra-info {
+    position: fixed;
+    z-index: 15;
+
+    box-sizing: border-box;
+
+    width: min(90vw, 700px);
+    right: 0;
+    left: 0;
+
+    top: 50vh;
+
+    margin: auto;
+
+    padding: 64px;
+
+    color: var(--tertiary-color);
+
+    font-size: 18px;
+
+    background-color: var(--primary-color);
+    border: 1px solid var(--secondary-color);
+
+    --inset: 50px;
+
+    transform: translateY(-50%);
+
+    clip-path: polygon(0 var(--inset), var(--inset) 0, 100% 0, 100% calc(100% - var(--inset)), calc(100% - var(--inset)) 100%, 0 100%);
+
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.extra-info:not(.active) {
+    transform: translateY(calc(-50% - 100px));
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.extra-info::before,
+.extra-info::after {
+    content: "";
+    display: block;
+    position: absolute;
+
+    /*Pre caculated*/
+    width: 71px;
+    height: 1.5px;
+
+    transform: rotate(-45deg);
+    background-color: var(--secondary-color);
+}
+
+.extra-info::before {
+    top: 49px;
+    left: -1px;
+
+    transform-origin: left;
+}
+
+.extra-info::after {
+    bottom: 49px;
+    right: -1px;
+
+    transform-origin: right;
+}
+
+.extra-info .actions {
+    margin-top: 48px;
+    text-align: center;
+}
+
+.extra-info .actions .button-wrapper {
+    display: inline-block;
+    position: relative;
+    width: 150px;
+}
+
+.extra-info .actions .button-wrapper button {
+    font-size: 16px;
+}
+
+.extra-info ~ .shadow {
+    position: fixed;
+    z-index: 14;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+
+    transition: opacity 0.2s;
+}
+
+.extra-info:not(.active) ~ .shadow {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+
+/*
+
+    Table Styles
+
+*/
+
+table {
+    width: 100%;
+}
+
+
+
+/*
+
+    Nav Styles
+
+*/
+
+
+nav {
+    position: absolute;
+    z-index: 7;
+
+    right: 16px;
+
+    top: 50%;
+
+    overflow: visible;
+
+    transform: translateY(-50%);
+}
+
+
+nav > .item {
+
+    display: grid;
+
+    grid-template-columns: 24px 1fr;
+
+    padding: 16px;
+
+    margin: 64px 0px;
+
+    line-height: 24px;
+    font-family: var(--acent-font);
+
+    color: var(--tertiary-color);
+
+    transition: transform 0.35s, color 0.25s;
+}
+
+nav > .item.active {
+    border-left: 2px solid hsla(var(--secondary-color-h), var(--secondary-color-s), var(--secondary-color-l), 0.25);
+
+    color: hsl(var(--secondary-color-h), 10%, var(--secondary-color-l));
+
+    transform: translateX(-16px);
+}
+
+nav > .item:hover:not(.active) {
+    transform: translateX(-16px);
+}
+
+
+nav > .item > .number {
+    width: 24px;
+    height: 24px;
+
+    text-align: center;
+}
+
+nav > .item > .name {
+    opacity: 0;
+    margin-left: 8px;
+
+    transition: opacity 0.2s;
+}
+
+nav > .item:hover > .name {
+    opacity: 1;
+}
+
+.nav-toggle-btn {
+    display: none;
+    position: fixed;
+    z-index: 7;
+
+    bottom: 32px;
+    right: 32px;
+}
+
+.nav-toggle-btn svg {
+    width: 16px;
+    height: 16px;
+
+    stroke: var(--tertiary-color);
+}
+
+.nav-toggle-btn svg path {
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+nav.active ~ .nav-toggle-btn svg path:first-child {
+    transform: rotate(45deg) translate(24px, 10px);
+    transform-origin: top left;
+}
+
+nav.active ~ .nav-toggle-btn svg path:nth-child(2) {
+    opacity: 0;
+}
+
+nav.active ~ .nav-toggle-btn svg path:last-child {
+    transform: rotate(315deg) translate(8px, 6px);
+    transform-origin: bottom left;
+}
+
+
+
+/*
+
+    JS Disabled Warning Styles
+
+*/
+
+.no-script-warn {
+    display: none;
+    position: fixed;
+    z-index: 105;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: var(--primary-color);
+}
+
+.no-script-warn > .content {
+    align-self: center;
+    justify-self: center;
+
+    width: fit-content;
+}
+
+
+/*
+
+    Form Styles (And Button)
+
+*/
+
+form {
+    width: 100%;
+
+    max-width: 450px;
+
+    position: relative;
+}
+
+form .input-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    margin: 48px 0px;
+}
+
+form .input-wrapper label {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+
+    font-size: 14px;
+
+    pointer-events: none;
+
+    color: var(--tertiary-color);
+
+    transition: transform 0.2s;
+}
+
+form .input-wrapper :is(input, textarea) {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    font-size: 14px;
+
+    padding: 16px 20px;
+
+    background-color: transparent;
+
+    border: 0px;
+    border-bottom: 2px solid var(--secondary-color);
+
+    color: #b5bbab;
+
+    font-family: inherit;
+
+    resize: none;
+
+    transition: background-color 0.2s;
+}
+
+form .input-wrapper :is(input, textarea):focus,
+form button:focus {
+    background-color: hsla(var(--secondary-color-h), var(--secondary-color-s), var(--secondary-color-l), 0.05);
+
+    outline: none;
+}
+
+form .input-wrapper :is(input, textarea):not(:placeholder-shown)
+~ label {
+    transform: translate(-16px, -40px);
+}
+
+
+
+button {
+
+    width: 100%;
+    position: relative;
+
+
+    padding: 16px 20px;
+
+    background-color: transparent;
+    border: 2px solid var(--secondary-color);
+
+    font-family: var(--acent-font);
+    text-transform: uppercase;
+    color: var(--secondary-color);
+    font-weight: 900;
+    font-size: 24px;
+    border: 2px solid var(--secondary-color);
+
+    --inset: 25px;
+
+    clip-path: polygon(
+        0                           var(--inset),
+        var(--inset)                0,
+        100%                        0,
+        100%                        calc(100% - var(--inset)),
+        calc(100% - var(--inset))   100%,
+        0                           100%
+    );
+
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+button::before,
+button::after {
+    content: "";
+    display: block;
+    position: absolute;
+
+    /*Pre caculated*/
+    width: 38px;
+    height: 1.5px;
+
+    transform: rotate(-45deg);
+    background-color: var(--secondary-color);
+}
+
+button::before {
+    top: 24px;
+    left: -3px;
+
+    transform-origin: left;
+}
+
+button::after {
+    bottom: 24px;
+    right: -2px;
+
+    transform-origin: right;
+}
+
+button:hover {
+    transform: translate(-4px, -4px);
+}
+
+button:hover ~ .shadow {
+    --offset: 20px;
+    transform: translate(-4px, -4px);
+}
+
+button ~ .shadow {
+    position: absolute;
+
+    margin-top: calc(-62px + var(--offset));
+    margin-left: var(--offset);
+
+    --offset: 12px;
+    --inset: 25px;
+
+    width: 100%;
+    height: 62px;
+
+    background-color: rgba(255, 255, 255, 0.04);
+
+
+    clip-path: polygon(
+        calc(100% - var(--offset))                  0,
+        100%                                        0,
+        100%                                        calc(100% - var(--inset)),
+        calc(100% - var(--inset))                   100%,
+        0                                           100%,
+        0                                           calc(100% - var(--offset)),
+        calc(100% - var(--offset) - var(--inset))   calc(100% - var(--offset)),
+        calc(100% - var(--offset))                  calc(100% - var(--offset) - var(--inset))
+    );
+
+    transition: clip-path 0.2s, margin 0.2s, transform 0.2s;
+}
+
+
+/*
+    Page 1 Styles
+*/
+
+#page1 > header.intro {
+    width: fit-content;
+
+    margin-left: 7.5vw;
+}
+
+
+#page1 > header.intro {
+    align-self: center;
+
+    height: min-content;
+}
+
+
+
+/*
+    Page 2 Styles
+*/
+
+
+#page2 {
+    text-align: end;
+}
+
+#page2 > article.about {
+    align-self: center;
+    justify-self: right;
+
+    height: min-content;
+}
+
+#page2 > article.about {
+    margin-right: 15vw;
+
+    max-width: 600px;
+}
+
+#page2 > article.about > h1 {
+    margin-bottom: 128px;
+}
+
+
+#page2 > article.about > p {
+    margin: 48px 0px;
+}
+
+
+
+/*
+
+    Page 3 styles
+
+*/
+
+#page3 {
+    text-align: center;
+}
+
+.skills {
+    display: grid;
+
+    grid-template-rows: 23vh 65vh 12vh;
+}
+
+.skills > header {
+    align-self: end;
+}
+
+.skills .graphs {
+    display: grid;
+
+    height: 50vh;
+    width: 80vw;
+
+    align-self: center;
+    justify-self: center;
+
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.skills .graphs .stat {
+    display: grid;
+
+    position: relative;
+
+    grid-template-rows: auto 135px 30px;
+}
+
+.skills .graphs .stat .pbar {
+    align-self: center;
+    justify-self: center;
+}
+
+.skills .graphs .stat .icon {
+    width: 65px;
+    height: 65px;
+
+    margin-bottom: 16px;
+
+    align-self: end;
+    justify-self: center;
+}
+
+.skills .graphs .stat .icon.wide {
+    transform: scale(1.5);
+}
+
+.skills .graphs .stat .desc {
+    position: absolute;
+
+    bottom: calc(100% + 32px);
+
+    width: 300px;
+}
+
+.skills .graphs .stat .icon svg path {
+    fill: var(--secondary-color);
+}
+
+.skills .graphs .stat .name {
+    font-family: var(--acent-font);
+
+    font-size: 22px;
+
+    color: var(--tertiary-color);
+}
+
+.skills .graphs .stat .pbar {
+    transition: transform 0.5s;
+}
+
+.skills .graphs .stat .pbar.hover {
+    transform: scale(1.15);
+}
+
+
+
+/*
+
+    Page 4 styles
+
+*/
+
+#page4 {
+    grid-template-rows: 300px 1fr 12vh;
+}
+
+#page4 header {
+    margin: 128px;
+}
+
+.timeline {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(8, 1fr);
+    width: 85vw;
+    margin-left: 3vw;
+}
+
+
+.timeline:before {
+    content: "";
+    display: block;
+    position: absolute;
+
+    left: 0;
+    top: 50%;
+
+    width: 85%;
+    height: 1px;
+
+    background-color: var(--secondary-color);
+}
+
+.timeline > .event {
+    display: grid;
+    grid-template-rows: auto 83px;
+
+
+    height: 50%;
+    position: relative;
+}
+
+.timeline > .event:last-child {
+    display: block;
+
+    align-self: center;
+    height: fit-content;
+}
+
+.timeline > .event:last-child > .name {
+    margin-bottom: 0 !important;
+
+    font-size: 56px;
+    font-weight: 900;
+    font-family: var(--acent-font);
+    text-transform: uppercase;
+
+    transform: rotate(-90deg);
+}
+
+.timeline > .event:last-child > .name > span:first-child {
+    display: block;
+    font-size: 0.87em;
+    white-space: nowrap;
+
+}
+
+.timeline > .event:nth-child(odd) {
+    align-self: end;
+    grid-template-rows: 83px auto;
+}
+
+.timeline > .event:nth-child(even) > .icon {
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
+
+.timeline > .event:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    display: block;
+
+
+    bottom: 0;
+    right: 50%;
+
+
+    height: 40px;
+    width: 1px;
+
+    background-color: var(--secondary-color);
+}
+
+.timeline > .event:nth-child(odd)::before {
+    bottom: unset;
+    top: 0;
+}
+
+.timeline > .event > .name {
+    text-align: center;
+
+    height: fit-content;
+
+    margin-top: 64px;
+
+    color: var(--tertiary-color);
+}
+
+.timeline > .event:nth-child(even) > .name {
+    margin-bottom: 64px;
+    margin-top: 0px;
+
+    align-self: end;
+}
+
+.timeline > .event:nth-child(even) > .icon {
+    align-self: end;
+}
+
+.timeline > .event > .icon {
+    width: 30%;
+    justify-self: center;
+}
+
+.timeline > .event > .icon.small {
+    width: 25%;
+    margin-top: 2.5%;
+}
+
+.timeline > .event > .icon svg * {
+    fill: var(--secondary-color);
+    stroke: var(--secondary-color);
+}
+
+
+#page4 > p {
+    text-align: center;
+}
+
+
+/*
+    Page 5 Styles
+*/
+
+#page5 {
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+}
+
+#page5 > .col {
+    width: 75%;
+
+    align-self: center;
+    justify-self: center;
+}
+
+#page5 > .col:last-child {
+    justify-self: start;
+}
+
+#page5 footer {
+    margin-top: 128px;
+    font-size: 20px;
+}
+
+#page5 footer .channels {
+    margin-top: 32px;
+}
+
+
+#page5 footer .channels a {
+    display: block;
+
+    color: var(--tertiary-color);
+    text-decoration: none;
+    font-weight: normal;
+    font-family: var(--acent-font);
+    font-size: 1em;
+    line-height: 2;
+}
+
+
+
+.text-ani {
+    position: fixed;
+    display: grid;
+    z-index: -1;
+
+    grid-template-rows: repeat(3, 1fr);
+
+    width: 100vw;
+    height: 100vh;
+
+    text-transform: uppercase;
+    font-size: 256px;
+    font-family: var(--acent-font);
+    font-weight: 900;
+
+
+    color: rgba(255, 255, 255, 0.01)
+}
+
+.text-ani > div {
+    align-self: center;
+    animation: textAni 10s linear 0s infinite;
+    transform: translateX(-100%);
+}
+
+.text-ani > div:nth-child(2) {
+   animation-delay: 4s;
+   animation-direction: reverse;
+}
+
+.text-ani > div:nth-child(3) {
+    animation-delay: 7s;
+}
+
+
+@keyframes textAni {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+    }
+}
+
+
+@media only screen and (max-width: 1200px) {
+    p {
+        font-size: 18px;
+    }
+
+    #page1 .circuit {
+        opacity: 0.5;
+    }
+
+    .nav-toggle-btn {
+        display: block;
+    }
+
+    nav {
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        background-color:rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(3px);
+
+        transform: unset;
+
+        opacity: 0;
+        pointer-events: none;
+
+        transition: opacity 0.2s;
+    }
+
+    nav.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    nav .item {
+        width: min(90vw, 300px);
+
+        margin: 64px auto;
+    }
+
+    nav .name {
+        opacity: 1 !important;
+    }
+
+    nav > .item.active {
+        transform: translateX(32px);
+    }
+
+    nav > .item:hover:not(.active) {
+        transform: translateX(32px);
+    }
+
+}
+
+@media only screen and (max-width: 1000px) {
+    h1 {
+        font-size: 6em;
+    }
+
+    h2 {
+        font-size: 3em;
+    }
+
+    #page2 .circuit {
+        opacity: 0.5;
+    }
+
+
+    #page2 > article.about > h1 {
+        margin-bottom: 64px;
+    }
+
+    .skills .graphs .stat .icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .skills .graphs .stat .name {
+        font-size: 18px;
+    }
+
+    .skills .graphs .pbar {
+        width: 35px;
+        height: 210px;
+    }
+
+    .skills .graphs .pbar,
+    .skills .graphs .pbar > .progress {
+        --inset: 10.5px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+
+    h1 {
+        font-size: 15vw;
+    }
+
+    h2 {
+        font-size: 7.5vw;
+    }
+
+    h4 {
+        font-size: 3vw;
+    }
+
+    p {
+        font-size: 3vw;
+    }
+
+    #page1 > header.intro {
+        margin: auto;
+    }
+
+    .skills {
+        grid-template-rows: 15vh 1fr 12vh;
+    }
+
+    .skills .graphs {
+        grid-template-columns: repeat(3, 1fr);
+        height: unset;
+    }
+
+    .skills .graphs .stat {
+        grid-template-rows: auto 71px 40px;
+    }
+
+    .skills .graphs .pbar {
+        height: 20vh;
+    }
+
+    #page4 {
+        grid-template-rows: 20vh 70vh 10vh;
+    }
+
+    #page4 header {
+        width: 100%;
+        margin: 16px;
+        text-align: center;
+    }
+
+    .timeline {
+        grid-auto-flow: row;
+        grid-template-columns: unset;
+        grid-template-rows: repeat(8, 1fr);
+
+        height: 100%;
+        max-width: 350px;
+        width: unset;
+
+        justify-self: center;
+        align-self: center;
+
+
+        margin: auto;
+    }
+
+    .timeline::before {
+        height: 87.5%;
+        width: 1px;
+        top: 0;
+        left: 0;
+    }
+
+    .timeline > .event {
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+
+        padding-left: 64px;
+
+        grid-template-rows: unset !important;
+        grid-template-columns: 56px 1fr;
+
+        align-self: center;
+        justify-self: left;
+    }
+
+    .timeline > .event:not(:last-child):before {
+        top: 50%;
+        bottom: unset;
+        left: 0;
+        right: unset;
+
+        height: 1px;
+        width: 40px;
+    }
+
+    .timeline > .event > .name {
+        margin: 0px !important;
+
+        padding-left: 24px;
+
+        align-self: center !important;
+        justify-self: start !important;
+    }
+
+    .timeline > .event > .icon {
+        width: 90%;
+        margin: auto;
+
+        grid-column-start: 1;
+        grid-row-start: 1;
+        align-self: center;
+        justify-self: end;
+    }
+
+    .timeline > .event > .icon.small {
+        width: 80%;
+    }
+
+    .timeline > .event:last-child {
+        padding: 0px;
+        justify-self: start !important;
+    }
+
+    .timeline > .event:last-child > .name {
+        padding: 0px;
+        transform: unset;
+        font-size: 32px;
+        text-align: left;
+    }
+
+    #page5 {
+        grid-template-columns: none;
+        grid-template-rows: max(30vh, 55vw) 70vh;
+    }
+
+    #page5 > .col:first-child {
+        align-self: end;
+    }
+
+    #page5 > .col:last-child {
+        align-self: start;
+        justify-self: center;
+    }
+
+    #page5 footer {
+        margin-top: 16px;
+    }
+
+    #page5 footer h5 {
+        display: none
+    }
+
+    #page5 footer .channels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        margin-top: 0px;
+
+        font-size: 3.5vw;
+    }
+
+    form {
+        width: 100%;
+        margin: auto;
+    }
+
+    form .input-wrapper {
+        margin: 32px 0px;
+    }
+
+    form .input-wrapper :is(input, textarea):not(:placeholder-shown) ~ label {
+        transform: translate(-16px, -32px);
+    }
+}

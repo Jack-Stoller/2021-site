@@ -1,0 +1,80 @@
+/*
+
+    The Cursor Effect
+
+
+    Description:
+        If this effect is loaded, it will replace
+        the cursor with a custom cursor. This
+        cursor is partically defined in the HTML
+        document. The text around the cursor can
+        be changed using the data-cursor-type
+        attribute on any element. When the cursor
+        hovers it, the cursor will change text
+
+    Files:
+        effects/cursor.css
+        effects/cursor.js
+
+*/
+
+
+
+* {
+    cursor: none;
+}
+
+.cursor {
+    position: fixed;
+    z-index: 500;
+
+    top: 0px;
+    left: 0px;
+
+    width: 6px;
+    height: 6px;
+
+    background-color: var(--secondary-color);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.cursor > svg {
+    content: "";
+    position: absolute;
+
+    width: 75px;
+    height: 75px;
+
+    top: -35px;
+    left: -35px;
+
+    animation: rotate 8s linear 0s infinite;
+
+    opacity: 0;
+
+    fill: var(--secondary-color);
+
+    transition: opacity 0.2s;
+}
+
+.cursor.scroll > svg.scroll { opacity: 1; }
+.cursor.click > svg.click { opacity: 1; }
+.cursor.type > svg.type { opacity: 1; }
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.cursor:not(.active) {
+    opacity: 0;
+}

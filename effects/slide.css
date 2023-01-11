@@ -1,0 +1,42 @@
+/*
+
+    The Slide Effect
+
+
+    Description:
+        This effect is used for animated any text.
+        It slides out veritcally with a delay for
+        each letter.
+
+    Files:
+        effects/slide.css
+        effects/slide.js
+
+    Classes:
+        .slidable
+            .slid
+            .no-ani
+
+*/
+
+.slidable span.slide-wrapper {
+    clip-path: inset(0 0 0 0);
+}
+
+.slidable span.slide-wrapper > span {
+    display: inline-block;
+    white-space: pre;
+
+    transform: translateY(0);
+
+
+    transition: transform 0.15s ease-in-out;
+}
+
+.slidable.no-ani span.slide-wrapper > span {
+    transition: none !important;
+}
+
+.slidable.slid span.slide-wrapper > span {
+    transform: translateY(100%);
+}

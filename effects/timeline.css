@@ -1,0 +1,103 @@
+/*
+
+    The Timeline Effect
+
+
+    Description:
+        This effect is used for animated the timeline
+        in and out. It can't easily be used in other
+        places. The timeline will animate in slowly
+        and just fade out for speed
+
+    Files:
+        effects/timeline.css
+
+    Classes:
+        .timeline
+            .active
+            .no-ani
+*/
+
+
+.timeline {
+    opacity: 1;
+    transition: opacity 0s;
+}
+
+.timeline:not(.active) {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+
+.timeline::before {
+    transition: width 1s linear;
+}
+
+.timeline:not(.active):before {
+    width: 0;
+}
+
+
+.timeline > .event {
+    transition: clip-path 1s ease-out;
+    clip-path: inset(0 0 0 0);
+}
+
+.timeline:not(.active) > .event {
+    clip-path: inset(100% 0 0 0);
+}
+
+.timeline:not(.active) > .event:nth-child(odd) {
+    clip-path: inset(0 0 100% 0);
+}
+
+
+.timeline > .event:last-child {
+    clip-path: inset(-100% -100% -100% -100%);
+}
+
+.timeline:not(.active) > .event:last-child {
+    clip-path: inset(-100% 100% -100% -100%);
+}
+
+
+/*
+
+    At 800px the timeline becomes vertical.
+    The animation needs changed to still work
+
+*/
+
+@media only screen and (max-width: 800px) {
+
+    .timeline::before {
+        transition: height 1s linear;
+    }
+
+
+    .timeline:not(.active):before {
+        height: 0;
+        width: 1px;
+    }
+
+    .timeline:not(.active) > .event {
+        clip-path: inset(0 100% 0 0);
+    }
+
+
+    .timeline:not(.active) > .event:last-child {
+        clip-path: inset(0 0 100% 0);
+    }
+}
+
+
+
+.timeline > .event:nth-child(1) { transition-delay: 62.5ms; }
+.timeline > .event:nth-child(2) { transition-delay: 187.5ms; }
+.timeline > .event:nth-child(3) { transition-delay: 312.5ms; }
+.timeline > .event:nth-child(4) { transition-delay: 437.5ms; }
+.timeline > .event:nth-child(5) { transition-delay: 562.5ms; }
+.timeline > .event:nth-child(6) { transition-delay: 687.5ms; }
+.timeline > .event:nth-child(7) { transition-delay: 812.5ms; }
+.timeline > .event:nth-child(8) { transition-delay: 937.5ms; }
